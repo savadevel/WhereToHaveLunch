@@ -4,5 +4,8 @@ target
 *.iml
 log
 *.patch
+config
 
 
+/diagram.mwb
+/diagram.mwb.bak
