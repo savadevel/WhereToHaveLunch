@@ -132,7 +132,6 @@
             <version>${hibernate.version}</version>
         </dependency>
 
-        <!--http://hibernate.org/validator/documentation/getting-started/#unified-expression-language-el-->
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.el</artifactId>
@@ -159,7 +158,6 @@
             </exclusions>
         </dependency>
 
-        <!--https://medium.com/criciumadev/its-time-migrating-to-java-11-5eb3868354f9-->
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
@@ -171,16 +169,22 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-servlet-api</artifactId>
+            <version>${tomcat.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
 
         <!--JSON-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson-json.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-hibernate5</artifactId>
             <version>${jackson-json.version}</version>
         </dependency>
         <dependency>

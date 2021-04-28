@@ -35,7 +35,7 @@
 
                 <!-- TODO: comment to delete -->
 <!--                <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_SCRIPTS_ACTION}" value="drop-and-create"/>-->
-                <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_SCRIPTS_CREATE_TARGET}" value="${WTHL_ROOT}/config/ddl/create.ddl"/>
+<!--                <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_SCRIPTS_CREATE_TARGET}" value="${WTHL_ROOT}/config/ddl/create.ddl"/>-->
 <!--                <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_SCRIPTS_DROP_TARGET}" value="${WTHL_ROOT}/config/ddl/drop.ddl"/>-->
 <!--                <entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_AUTO}" value="create"/>-->
             </map>
