@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @Setter
 @ToString(callSuper = true)
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "on_date"}, name = "votes_unique_restaurant_user_on_date_idx")})
 public class Vote extends AbstractBaseEntity {
@@ -31,4 +30,11 @@ public class Vote extends AbstractBaseEntity {
     @Column(name = "on_date", nullable = false)
     @NotNull
     private LocalDate date;
+
+    public Vote(Integer id, User user, Restaurant restaurant, LocalDate date) {
+        super(id);
+        this.user = user;
+        this.restaurant = restaurant;
+        this.date = date;
+    }
 }

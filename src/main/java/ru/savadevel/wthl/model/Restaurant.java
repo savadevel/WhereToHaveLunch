@@ -15,4 +15,8 @@ public class Restaurant extends AbstractNamedEntity {
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     @JsonBackReference
     private Set<Menu> menus;
+
+    public Restaurant(Integer id, String name) {
+        super(id, name);
+    }
 }

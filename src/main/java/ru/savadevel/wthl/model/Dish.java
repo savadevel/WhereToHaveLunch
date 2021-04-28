@@ -14,7 +14,6 @@ import java.util.Set;
 @Setter
 @ToString(callSuper = true)
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = "name", name = "dishes_unique_name_idx")})
 public class Dish extends AbstractNamedEntity { // TODO super class constructor is not called, in AllArgsConstructor does not pass id and name for AbstractNamedEntity
@@ -28,4 +27,9 @@ public class Dish extends AbstractNamedEntity { // TODO super class constructor 
     @OneToMany(mappedBy = "dish", fetch = FetchType.LAZY)
     @JsonBackReference
     private Set<Menu> menus;
+
+    public Dish(Integer id, String name, BigDecimal price) {
+        super(id, name);
+        this.price = price;
+    }
 }
