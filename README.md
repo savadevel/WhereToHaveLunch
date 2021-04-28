@@ -19,31 +19,31 @@ P.S.: Make sure everything works with latest version that is on github :)
 
 P.P.S.: Assume that your API will be used by a frontend developer to build frontend on top of that.
 
-Diagram of entities / tables (https://app.sqldbm.com/PostgreSQL/Edit/p158862/#):
+Diagram of entities / tables:
 ![diagram.png](diagram.png)
 
 ## Using cURL for manage system for deciding where to have lunch by REST queries
 
-| URL                                                       | Method | Role  | Description                                                                  |
-| ---                                                       |---     |---    | ---                                                                          |
-| /rest/restaurants/votes                                   | GET    | USER  | displays amount votes on restaurants by dates                                |
-| /rest/restaurants/votes?date="2021-01-01"                 | GET    | USER  | displays amount votes on restaurants on date                                 |
-| /rest/restaurants                                         | GET    | ADMIN | displays list restaurants                                                    |
-| /rest/restaurants/{restaurant-id}                         | GET    | ADMIN | get restaurant by id                                                         |
-| /rest/restaurants                                         | POST   | ADMIN | add restaurant                                                               |
-| /rest/dishes                                              | GET    | ADMIN | displays list dishes                                                         |
-| /rest/dishes/{dish-id}                                    | GET    | ADMIN | get dish by id                                                               |
-| /rest/dishes                                              | POST   | ADMIN | add dish                                                                     |
-| /rest/restaurants/{restaurant-id}/menus                   | GET    | ADMIN | displays list menus of the restaurant by dates                               |
-| /rest/restaurants/{restaurant-id}/menus/{menu-id}         | GET    | ADMIN | get menu of the restaurant by id                                             |
-| /rest/restaurants/{restaurant-id}/menus                   | POST   | ADMIN | add dish to the menu of the restaurant on current date                       |
-| /rest/restaurants/{restaurant-id}/votes/{vote-id}         | GET    | USER  | get vote by id                                                               |
-| /rest/restaurants/{restaurant-id}/votes                   | POST   | USER  | add only one vote for the restaurant on current date (if it's before 11:00)  |
-| /rest/restaurants/{restaurant-id}/votes/{vote-id}         | PUT    | USER  | change vote for the restaurant on current date (if it's before 11:00)        |
-| /rest/profile/votes                                       | GET    | USER  | displays list of votes by date of the user                                   |
-| /rest/profile/votes?date="2021-01-01"                     | GET    | USER  | displays vote of the user on date                                            |
+| URL                                               | Method | Role  | Description                                                                  |
+| ---                                               |---     |---    | ---                                                                          |
+| /rest/restaurants/votes                           | GET    | USER  | displays amount votes for restaurants by dates                                |
+| /rest/restaurants/votes?date=2021-01-01           | GET    | USER  | displays amount votes for restaurants on date                                 |
+| /rest/restaurants                                 | GET    | ADMIN | displays list restaurants                                                    |
+| /rest/restaurants/{restaurant-id}                 | GET    | ADMIN | get restaurant by id                                                         |
+| /rest/restaurants                                 | POST   | ADMIN | add restaurant                                                               |
+| /rest/dishes                                      | GET    | ADMIN | displays list dishes                                                         |
+| /rest/dishes/{dish-id}                            | GET    | ADMIN | get dish by id                                                               |
+| /rest/dishes                                      | POST   | ADMIN | add dish                                                                     |
+| /rest/restaurants/{restaurant-id}/menus           | GET    | ADMIN | displays list menus of the restaurant by dates                               |
+| /rest/restaurants/{restaurant-id}/menus/{menu-id} | GET    | ADMIN | get menu of the restaurant by id                                             |
+| /rest/restaurants/{restaurant-id}/menus           | POST   | ADMIN | add dish to the menu of the restaurant on current date                       |
+| /rest/restaurants/{restaurant-id}/votes/{vote-id} | GET    | USER  | get vote by id                                                               |
+| /rest/restaurants/{restaurant-id}/votes           | POST   | USER  | add only one vote for the restaurant on current date (if it's before 11:00)  |
+| /rest/restaurants/{restaurant-id}/votes/{vote-id} | PUT    | USER  | change vote for the restaurant on current date (if it's before 11:00)        |
+| /rest/profile/votes                               | GET    | USER  | displays list of votes by date of the user                                   |
+| /rest/profile/votes?date=2021-01-01               | GET    | USER  | displays vote of the user on date                                            |
 
-### Display amount votes on restaurants by dates, order desc by: date, votes and name of restaurant
+### Display amount votes on restaurants by dates, order: desc by date, desc by votes and asc name of restaurant 
 
 The operation available for USER only.
 
@@ -102,7 +102,7 @@ Status: 200 OK
 ]
 ```
 
-### Display amount votes on restaurants on date, order desc by: votes and name of restaurant
+### Display amount votes on restaurants on date, order: desc by date, desc by votes and asc name of restaurant
 
 The operation available for USER only.
 
@@ -111,7 +111,7 @@ Code samples (shell)
 ```shell
 curl \
   -X GET \
-  http://localhost:8080/wthl/rest/restaurants/votes?date="2021-01-01"
+  http://localhost:8080/wthl/rest/restaurants/votes?date=2021-01-01
 ```
 
 Response
@@ -464,7 +464,7 @@ Code samples (shell)
 ```shell
 curl \
   -X GET \
-  http://localhost:8080/wthl/rest/profile/votes?date="2021-01-01"
+  http://localhost:8080/wthl/rest/profile/votes?date=2021-01-01
 ```
 
 Response
