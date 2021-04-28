@@ -27,7 +27,7 @@ Diagram of entities / tables:
 | URL                                                                                                   | Method | Role  | Description                                                                  |
 | ---                                                                                                   |---     |---    | ---                                                                          |
 | [/rest/restaurants/votes](#Display-amount-votes-on-restaurants-by-dates)                              | GET    | USER  | displays amount votes for restaurants by dates                                |
-| [/rest/restaurants/votes?date=2021-01-01](#Display-amount-votes-on-restaurants on date)               | GET    | USER  | displays amount votes for restaurants on date                                 |
+| [/rest/restaurants/votes?date=2021-01-01](#Display-amount-votes-on-restaurants-on-date)               | GET    | USER  | displays amount votes for restaurants on date                                 |
 | [/rest/restaurants](#Display-list-restaurants)                                                        | GET    | ADMIN | displays list restaurants                                                    |
 | /rest/restaurants/{restaurant-id}                                                                     | GET    | ADMIN | get restaurant by id                                                         |
 | [/rest/restaurants](#Add-a-restaurant)                                                                | POST   | ADMIN | add restaurant                                                               |
