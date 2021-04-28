@@ -26,22 +26,22 @@ Diagram of entities / tables:
 
 | URL                                                                                                   | Method | Role  | Description                                                                  |
 | ---                                                                                                   |---     |---    | ---                                                                          |
-| [/rest/restaurants/votes](#Display amount votes on restaurants by dates)                              | GET    | USER  | displays amount votes for restaurants by dates                                |
-| [/rest/restaurants/votes?date=2021-01-01](#Display amount votes on restaurants on date)               | GET    | USER  | displays amount votes for restaurants on date                                 |
-| [/rest/restaurants](#Display list restaurants)                                                        | GET    | ADMIN | displays list restaurants                                                    |
+| [/rest/restaurants/votes](#Display-amount-votes-on-restaurants-by-dates)                              | GET    | USER  | displays amount votes for restaurants by dates                                |
+| [/rest/restaurants/votes?date=2021-01-01](#Display-amount-votes-on-restaurants on date)               | GET    | USER  | displays amount votes for restaurants on date                                 |
+| [/rest/restaurants](#Display-list-restaurants)                                                        | GET    | ADMIN | displays list restaurants                                                    |
 | /rest/restaurants/{restaurant-id}                                                                     | GET    | ADMIN | get restaurant by id                                                         |
-| [/rest/restaurants](#Add a restaurant)                                                                | POST   | ADMIN | add restaurant                                                               |
-| [/rest/dishes](#Display list dishes)                                                                  | GET    | ADMIN | displays list dishes                                                         |
+| [/rest/restaurants](#Add-a-restaurant)                                                                | POST   | ADMIN | add restaurant                                                               |
+| [/rest/dishes](#Display-list-dishes)                                                                  | GET    | ADMIN | displays list dishes                                                         |
 | /rest/dishes/{dish-id}                                                                                | GET    | ADMIN | get dish by id                                                               |
-| [/rest/dishes](#Add a dish)                                                                           | POST   | ADMIN | add dish                                                                     |
+| [/rest/dishes](#Add-a-dish)                                                                           | POST   | ADMIN | add dish                                                                     |
 | [/rest/restaurants/{restaurant-id}/menus](#Displays-list-menus-of-the-restaurant-by-dates)            | GET    | ADMIN | displays list menus of the restaurant by dates                               |
 | /rest/restaurants/{restaurant-id}/menus/{menu-id}                                                     | GET    | ADMIN | get menu of the restaurant by id                                             |
-| [/rest/restaurants/{restaurant-id}/menus](#Add dish to the menu of the restaurant on current date)    | POST   | ADMIN | add dish to the menu of the restaurant on current date                       |
-| [/rest/restaurants/{restaurant-id}/votes/{vote-id}](#Get vote by id)                                  | GET    | USER  | get vote by id                                                               |
-| [/rest/restaurants/{restaurant-id}/votes](#Add only one vote for the restaurant on current date)      | POST   | USER  | add only one vote for the restaurant on current date (if it's before 11:00)  |
-| [/rest/restaurants/{restaurant-id}/votes/{vote-id}](#Change vote for the restaurant on current date)  | PUT    | USER  | change vote for the restaurant on current date (if it's before 11:00)        |
-| [/rest/profile/votes](#Displays list of votes by date of the user)                                    | GET    | USER  | displays list of votes by date of the user                                   |
-| [/rest/profile/votes?date=2021-01-01](#Displays lvote of the user on date)                            | GET    | USER  | displays vote of the user on date                                            |
+| [/rest/restaurants/{restaurant-id}/menus](#Add-dish-to-the-menu-of-the-restaurant-on-current-date)    | POST   | ADMIN | add dish to the menu of the restaurant on current date                       |
+| [/rest/restaurants/{restaurant-id}/votes/{vote-id}](#Get-vote-by-id)                                  | GET    | USER  | get vote by id                                                               |
+| [/rest/restaurants/{restaurant-id}/votes](#Add-only-one-vote-for-the-restaurant-on-current-date)      | POST   | USER  | add only one vote for the restaurant on current date (if it's before 11:00)  |
+| [/rest/restaurants/{restaurant-id}/votes/{vote-id}](#Change-vote-for-the-restaurant-on-current-date)  | PUT    | USER  | change vote for the restaurant on current date (if it's before 11:00)        |
+| [/rest/profile/votes](#Displays-list-of-votes-by-date-of-the-user)                                    | GET    | USER  | displays list of votes by date of the user                                   |
+| [/rest/profile/votes?date=2021-01-01](#Displays-vote-of-the-user-on-date)                            | GET    | USER  | displays vote of the user on date                                            |
 
 ### Display amount votes on restaurants by dates
 order: desc by date, desc by votes and asc name of restaurant 
@@ -459,7 +459,7 @@ Status: 200 OK
 ] 
 ```
 
-### Displays lvote of the user on date
+### Displays vote of the user on date
 
 The operation available for USER only
 
