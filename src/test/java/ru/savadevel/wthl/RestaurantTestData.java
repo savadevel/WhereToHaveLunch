@@ -11,4 +11,8 @@ public class RestaurantTestData {
 
     public static final Restaurant restaurant1 = new Restaurant(RESTAURANT1_ID, "first restaurant");
     public static final Restaurant restaurant2 = new Restaurant(RESTAURANT1_ID + 1, "second restaurant");
+
+    public static Restaurant getNew() {
+        return new Restaurant(null, "New restaurant");
+    }
 }

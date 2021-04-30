@@ -24,247 +24,35 @@ Diagram of entities / tables:
 
 ## Using cURL for manage system for deciding where to have lunch by REST queries
 
-| URL                                                                                                   | Method | Role  | Description                                                                  |
-| ---                                                                                                   |---     |---    | ---                                                                          |
-| [/rest/restaurants/votes](#Display-amount-votes-on-restaurants-by-dates)                              | GET    | USER  | displays amount votes for restaurants by dates                                |
-| [/rest/restaurants/votes?date=2021-01-01](#Display-amount-votes-on-restaurants-on-date)               | GET    | USER  | displays amount votes for restaurants on date                                 |
-| [/rest/restaurants](#Display-list-restaurants)                                                        | GET    | ADMIN | displays list restaurants                                                    |
-| /rest/restaurants/{restaurant-id}                                                                     | GET    | ADMIN | get restaurant by id                                                         |
-| [/rest/restaurants](#Add-a-restaurant)                                                                | POST   | ADMIN | add restaurant                                                               |
-| [/rest/dishes](#Display-list-dishes)                                                                  | GET    | ADMIN | displays list dishes                                                         |
-| /rest/dishes/{dish-id}                                                                                | GET    | ADMIN | get dish by id                                                               |
-| [/rest/dishes](#Add-a-dish)                                                                           | POST   | ADMIN | add dish                                                                     |
-| [/rest/restaurants/{restaurant-id}/menus](#Displays-list-menus-of-the-restaurant-by-dates)            | GET    | ADMIN | displays list menus of the restaurant by dates                               |
-| /rest/restaurants/{restaurant-id}/menus/{menu-id}                                                     | GET    | ADMIN | get menu of the restaurant by id                                             |
-| [/rest/restaurants/{restaurant-id}/menus](#Add-dish-to-the-menu-of-the-restaurant-on-current-date)    | POST   | ADMIN | add dish to the menu of the restaurant on current date                       |
-| [/rest/restaurants/{restaurant-id}/votes/{vote-id}](#Get-vote-by-id)                                  | GET    | USER  | get vote by id                                                               |
-| [/rest/restaurants/{restaurant-id}/votes](#Add-only-one-vote-for-the-restaurant-on-current-date)      | POST   | USER  | add only one vote for the restaurant on current date (if it's before 11:00)  |
-| [/rest/restaurants/{restaurant-id}/votes/{vote-id}](#Change-vote-for-the-restaurant-on-current-date)  | PUT    | USER  | change vote for the restaurant on current date (if it's before 11:00)        |
-| [/rest/profile/votes](#Displays-list-of-votes-by-date-of-the-user)                                    | GET    | USER  | displays list of votes by date of the user                                   |
-| [/rest/profile/votes?date=2021-01-01](#Displays-vote-of-the-user-on-date)                            | GET    | USER  | displays vote of the user on date                                            |
+| URL                                                                                                                       | Method | Role  | Description                                                                  |
+| ---                                                                                                                       |---     |---    | ---                                                                          |
+| [/rest/restaurants/menus](#Displays-menus-of-restaurants-on-current-date)                                                 | GET    | USER  | displays menus of restaurants on current date                                |
+| [/rest/restaurants/votes](#Display-amount-votes-on-restaurants-on-current-date)                                           | GET    | USER  | displays amount votes for restaurants on current date                        |
+| [/rest/restaurants/votes/{vote-id}](#Get-vote-by-id)                                                                      | GET    | USER  | get vote by id                                                               |
+| [/rest/restaurants/{restaurant-id}/votes](#Add-only-one-vote-for-the-restaurant-on-current-date)                          | POST   | USER  | add only one vote for the restaurant on current date, if it's before 11:00   |
+| [/rest/restaurants/{restaurant-id}/votes](#Change-vote-for-the-restaurant-on-current-date)                                | PUT    | USER  | change vote for the restaurant on current date, if it's before 11:00         |
+| [/rest/profile/vote](#Displays-vote-of-the-user-on-current-date)                                                          | GET    | USER  | displays vote of the user on current date                                    |
+| [/rest/admin/restaurants](#Displays-dictionary-of-restaurants)                                                            | GET    | ADMIN | displays dictionary of restaurants                                           |
+| [/rest/admin/restaurants/{restaurant-id}](#Get-restaurant-by-id)                                                          | GET    | ADMIN | get restaurant by id                                                         |
+| [/rest/admin/restaurants](#Add-a-restaurant-to-dictionary)                                                                | POST   | ADMIN | add restaurant to dictionary                                                 |
+| [/rest/admin/dishes](#Displays-dictionary-of-dishes)                                                                      | GET    | ADMIN | displays dictionary of dishes                                                |
+| [/rest/admin/dishes/{dish-id}](#Get-dish-by-id)                                                                           | GET    | ADMIN | get dish by id                                                               |
+| [/rest/admin/dishes](#Add-a-dish-to-dictionary)                                                                           | POST   | ADMIN | add dish to dictionary                                                       |
+| [/rest/admin/restaurants/{restaurant-id}/menus](#Displays-dictionary-of-menus-the-restaurant-by-dates)                    | GET    | ADMIN | displays dictionary of menus the restaurant by dates                         |
+| [/rest/admin/restaurants/{restaurant-id}/menus?date=2021-01-01](#Displays-dictionary-of-menus-the-restaurant-on-the-date) | GET    | ADMIN | displays dictionary of menus the restaurant on the date                      |
+| [/rest/admin/restaurants/menus/{menu-id}](#Get-menu-by-id)                                                                | GET    | ADMIN | get menu by id                                                               |
+| [/rest/admin/restaurants/menus](#Add-dish-to-the-menu-of-the-restaurant-on-current-date)                                  | POST   | ADMIN | add dish to the menu of the restaurant on current date                       |
 
-### Display amount votes on restaurants by dates
-order: desc by date, desc by votes and asc name of restaurant 
-
-The operation available for USER only.
-
-Code samples (shell)
-
-```shell
-curl \
-  -X GET \
-  http://localhost:8080/wthl/rest/restaurants/votes
-```
-
-Response
-
-```
-Status: 200 OK
-```
-
-```
-[
-    {
-        "onDate":"2021-01-02",
-        "restaurant":
-            {
-                "id": 2,
-                "name": "Best restaurant"
-            },
-        "votes:4
-    },
-    {
-        "onDate":"2021-01-02",
-        "restaurant":
-            {
-                "id": 1,
-                "name": "Good restaurant"
-            },
-        "votes:3
-    },
-    {
-        "onDate":"2021-01-01",
-        "restaurant":
-            {
-                "id": 1,
-                "name": "Good restaurant"
-            },
-        "votes:5
-    },
-    {
-        "onDate":"2021-01-01",
-        "restaurant":
-            {
-                "id": 2,
-                "name": "Best restaurant"
-            },
-        "votes:3
-    }
-]
-```
-
-### Display amount votes on restaurants on date
-order: desc by date, desc by votes and asc name of restaurant
-
-The operation available for USER only.
+### Displays menus of restaurants on current date
+Sorting the menus: asc name of restaurant, after this asc name of dish
+The operation available for USER role
 
 Code samples (shell)
 
 ```shell
 curl \
   -X GET \
-  http://localhost:8080/wthl/rest/restaurants/votes?date=2021-01-01
-```
-
-Response
-
-```
-Status: 200 OK
-```
-
-```
-[
-    {
-        "date":"2021-01-01",
-        "restaurant":
-            {
-                "id": 1,
-                "name": "Good restaurant"
-            },
-        "votes:4
-    },
-    {
-        "date":"2021-01-01",
-        "restaurant":
-            {
-                "id": 2,
-                "name": "Best restaurant"
-            },
-        "votes:3
-    }
-]
-```
-
-### Display list restaurants
-
-The operation available for ADMIN only.
-
-Code samples (shell)
-
-```shell
-curl \
-  -X GET \
-  http://localhost:8080/wthl/rest/restaurants
-```
-
-Response
-
-```
-Status: 200 OK
-```
-
-```
-[
-    {
-        "id": 1,
-        "restaurant": "Good restaurant",
-    }
-]
-```
-
-### Add a restaurant
-
-The operation available for ADMIN only.
-
-Code samples (shell)
-
-```shell
-curl \
-  -X POST \
-  http://localhost:8080/wthl/rest/restaurants
-  -d '{"name":"Name of new Restaurant"}'
-```
-
-Response
-
-```
-Status: 201 Created
-Location: /rest/restaurant/{restaurant-id}
-```
-
-```
-{
-    "id": 10,
-    "name": "Name of new Restaurant"
-}
-```
-
-### Display list dishes
-
-The operation available for ADMIN only
-
-Code samples (shell)
-
-```shell
-curl \
-  -X GET \
-  http://localhost:8080/wthl/rest/dishes
-```
-
-Response
-
-```
-Status: 200 OK
-```
-
-```
-[
-    {
-        "id:2,
-        "dish":"First dish", 
-        "price":1.23 
-    }
-]
-```
-
-### Add a dish
-
-The operation available for ADMIN only
-
-Code samples (shell)
-
-```shell
-curl \
-  -X POST \
-  http://localhost:8080/wthl/rest/dishes
-  -d '{"name":"Name of new dish","price":1.23}'
-```
-
-Response
-
-```
-Status: 201 Created
-Location: /rest/dishes/{dish-id}
-```
-
-```
-{
-    "id": 20,
-    "name": "Name of new dish",
-    "price": 1.23
-}
-```
-
-### Displays list menus of the restaurant by dates
-
-The operation available for ADMIN only
-
-Code samples (shell)
-
-```shell
-curl \
-  -X GET \
-  http://localhost:8080/wthl/rest/restaurants/{restaurant-id}/menus
+  http://localhost:8080/wthl/rest/restaurants/menus
 ```
 
 Response
@@ -293,54 +81,57 @@ Status: 200 OK
 ]
 ```
 
-### Add dish to the menu of the restaurant on current date
-
-The operation available for ADMIN only
-
-Code samples (shell)
-
-```shell
-curl \
-  -X POST \
-  http://localhost:8080/wthl/rest/restaurants/{restaurant-id}/menus 
-  -d '{"dishId":10}'
-```
-
-Response
-
-```
-Status: 201 Created
-Location: /rest/restaurants/{restaurant-id}/menus/{menu-id}
-```
-
-```
-{
-    "id": 1,
-    "date":"2021-01-01",
-    "restaurant":
-    {
-        "id": 2,
-        "name": "Good restaurant"
-    },
-    "dish":
-    {
-        "id:3,
-        "name":"First dish", 
-        "price":1.23 
-    }
-}
-```
-
-### Get vote by id
-
-The operation available for USER only
+### Display amount votes on restaurants on current date
+Sorting the votes: desc by date and amount votes, after this asc name of restaurant
+The operation available for USER role
 
 Code samples (shell)
 
 ```shell
 curl \
   -X GET \
-  http://localhost:8080/wthl/rest/restaurants/{restaurant-id}/votes/{vote-id}
+  http://localhost:8080/wthl/rest/restaurants/votes
+```
+
+Response
+
+```
+Status: 200 OK
+```
+
+```
+[
+    {
+        "date":"2021-01-01",
+        "restaurant":
+            {
+                "id": 1,
+                "name": "Good restaurant"
+            },
+        "votes:4
+    },
+    {
+        "date":"2021-01-01",
+        "restaurant":
+            {
+                "id": 2,
+                "name": "Best restaurant"
+            },
+        "votes:3
+    }
+]
+```
+
+### Get vote by id
+
+The operation available only to the owner of the voice
+
+Code samples (shell)
+
+```shell
+curl \
+  -X GET \
+  http://localhost:8080/wthl/rest/restaurants/votes/{vote-id}
 ```
 
 Response
@@ -366,10 +157,9 @@ Status: 200 OK
 } 
 ```
 
-### Add only one vote for the restaurant on current date 
-(if it is before 11:00)
+### Add only one vote for the restaurant on current date
 
-The operation available for USER only
+The operation available for USER role, if it is before 11:00 and the restaurant has a menu
 
 Code samples (shell)
 
@@ -383,7 +173,7 @@ Response
 
 ```
 Status: 201 Created
-Location: /rest/restaurants/{restaurant-id}/votes/{vote-id}
+Location: /rest/restaurants/votes/{vote-id}
 ```
 
 ```
@@ -403,17 +193,16 @@ Location: /rest/restaurants/{restaurant-id}/votes/{vote-id}
 } 
 ```
 
-### Change vote for the restaurant on current date 
-(if it is before 11:00)
+### Change vote for the restaurant on current date
 
-The operation available for USER only
+The operation available for USER role, if it is before 11:00 and the restaurant has a menu
 
 Code samples (shell)
 
 ```shell
 curl \
   -X PUT \
-  http://localhost:8080/wthl/rest/restaurants/{restaurant-id}/votes/{vote-id} 
+  http://localhost:8080/wthl/rest/restaurants/{restaurant-id}/votes 
 ```
 
 Response
@@ -422,16 +211,51 @@ Response
 Status: 204 No Content
 ```
 
-### Displays list of votes by date of the user
+### Displays vote of the user on current date 
 
-The operation available for USER only
+The operation available for USER role
 
 Code samples (shell)
 
 ```shell
 curl \
   -X GET \
-  http://localhost:8080/wthl/rest/profile/votes
+  http://localhost:8080/wthl/rest/profile/vote
+```
+
+Response
+
+```
+Status: 200 OK
+```
+
+```
+{
+    "id":1,
+    "date":"2021-01-01",
+    "restaurant":
+        {
+            "id": 2,
+            "name": "Good restaurant"
+        },
+    "user":
+        {
+            "id:3,
+            "name":"user"
+        }
+} 
+```
+
+### Displays dictionary of restaurants
+
+The operation available for ADMIN role
+
+Code samples (shell)
+
+```shell
+curl \
+  -X GET \
+  http://localhost:8080/wthl/rest/admin/restaurants
 ```
 
 Response
@@ -443,32 +267,232 @@ Status: 200 OK
 ```
 [
     {
-        "id":1,
-        "date":"2021-01-01",
-        "restaurant":
-            {
-                "id": 2,
-                "name": "Good restaurant"
-            },
-        "user":
-            {
-                "id:3,
-                "name":"user"
-            }
+        "id": 1,
+        "restaurant": "Good restaurant",
     }
-] 
+]
 ```
 
-### Displays vote of the user on date
+### Get restaurant by id
 
-The operation available for USER only
+The operation available for ADMIN role
 
 Code samples (shell)
 
 ```shell
 curl \
   -X GET \
-  http://localhost:8080/wthl/rest/profile/votes?date=2021-01-01
+  http://localhost:8080/wthl/rest/admin/restaurants/1
+```
+
+Response
+
+```
+Status: 200 OK
+```
+
+```
+{
+    "id": 1,
+    "restaurant": "Good restaurant",
+}
+```
+
+### Add a restaurant to dictionary
+
+The operation available for ADMIN role
+
+Code samples (shell)
+
+```shell
+curl \
+  -X POST \
+  http://localhost:8080/wthl/rest/admin/restaurants
+  -d '{"name":"Name of new Restaurant"}'
+```
+
+Response
+
+```
+Status: 201 Created
+Location: /rest/admin/restaurant/{restaurant-id}
+```
+
+```
+{
+    "id": 2,
+    "name": "Name of new Restaurant"
+}
+```
+
+### Displays dictionary of dishes
+
+The operation available for ADMIN role
+
+Code samples (shell)
+
+```shell
+curl \
+  -X GET \
+  http://localhost:8080/wthl/rest/admin/dishes
+```
+
+Response
+
+```
+Status: 200 OK
+```
+
+```
+[
+    {
+        "id:3,
+        "dish":"First dish", 
+        "price":1.23 
+    }
+]
+```
+
+### Get dish by id
+
+The operation available for ADMIN role
+
+Code samples (shell)
+
+```shell
+curl \
+  -X GET \
+  http://localhost:8080/wthl/rest/admin/dishes/3
+```
+
+Response
+
+```
+Status: 200 OK
+```
+
+```
+{
+    "id:3,
+    "dish":"First dish", 
+    "price":1.23 
+}
+```
+
+### Add a dish to dictionary
+
+The operation available for ADMIN role
+
+Code samples (shell)
+
+```shell
+curl \
+  -X POST \
+  http://localhost:8080/wthl/rest/admin/dishes
+  -d '{"name":"Name of new dish","price":1.23}'
+```
+
+Response
+
+```
+Status: 201 Created
+Location: /rest/admin/dishes/{dish-id}
+```
+
+```
+{
+    "id": 4,
+    "name": "Name of new dish",
+    "price": 1.23
+}
+```
+
+### Displays dictionary of menus the restaurant by dates
+
+The operation available for ADMIN role
+
+Code samples (shell)
+
+```shell
+curl \
+  -X GET \
+  http://localhost:8080/wthl/rest/admin/restaurants/{restaurant-id}/menus
+```
+
+Response
+
+```
+Status: 200 OK
+```
+
+```
+[
+    {
+        "id":5,
+        "date":"2021-01-01",
+        "restaurant":
+            {
+                "id": 1,
+                "name": "Good restaurant"
+            },
+        "dish":
+            {
+                "id":3,
+                "name":"First dish", 
+                "price":1.23 
+            }
+    } 
+]
+```
+
+### Displays dictionary of menus the restaurant in the date
+
+The operation available for ADMIN role
+
+Code samples (shell)
+
+```shell
+curl \
+  -X GET \
+  http://localhost:8080/wthl/rest/admin/restaurants/{restaurant-id}/menus?date=2021-01-01
+```
+
+Response
+
+```
+Status: 200 OK
+```
+
+```
+[
+    {
+        "id":5,
+        "date":"2021-01-01",
+        "restaurant":
+            {
+                "id": 1,
+                "name": "Good restaurant"
+            },
+        "dish":
+            {
+                "id":3,
+                "name":"First dish", 
+                "price":1.23 
+            }
+    } 
+]
+```
+
+### Get menu by id
+
+The operation available for ADMIN role
+
+Code samples (shell)
+
+```shell
+curl \
+  -X GET \
+  http://localhost:8080/wthl/rest/admin/menus/{menu-id}
 ```
 
 Response
@@ -486,10 +510,46 @@ Status: 200 OK
             "id": 2,
             "name": "Good restaurant"
         },
-    "user":
+    "dish":
         {
-            "id:3,
-            "name":"user"
+            "id":3,
+            "name":"First dish", 
+            "price":1.23 
         }
 } 
+```
+
+### Add dish to the menu of the restaurant on current date
+
+The operation available for ADMIN role
+
+Code samples (shell)
+
+```shell
+curl \
+  -X POST \
+  http://localhost:8080/wthl/rest/admin/menus 
+  -d '{"restaurantId":2,"dishId":4}'
+```
+
+Response
+
+```
+Status: 201 Created
+Location: /rest/admin/menus/{menu-id}
+```
+
+```
+{
+    "id": 1,
+    "date":"2021-01-01",
+    "restaurant":
+    {
+        "id":2
+    },
+    "dish":
+    {
+        "id:4 
+    }
+}
 ```

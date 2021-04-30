@@ -13,4 +13,8 @@ public class DishTestData {
 
     public static final Dish dish1 = new Dish(DISH1_ID, "first dish", BigDecimal.valueOf(0.53));
     public static final Dish dish2 = new Dish(DISH1_ID + 1, "second dish", BigDecimal.valueOf(5.03));
+
+    public static Dish getNew() {
+        return new Dish(null, "New dish", BigDecimal.valueOf(0.55));
+    }
 }

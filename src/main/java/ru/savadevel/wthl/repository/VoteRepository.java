@@ -3,12 +3,14 @@ package ru.savadevel.wthl.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 import ru.savadevel.wthl.model.Vote;
 import ru.savadevel.wthl.model.Votes;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Transactional(readOnly = true)
 public interface VoteRepository extends JpaRepository<Vote, Integer> {
     @Query("select v.date as date, v.restaurant as restaurant,  count(v.id) as votes " +
             "from Vote v " +

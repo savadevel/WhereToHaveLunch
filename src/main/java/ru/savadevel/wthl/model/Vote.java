@@ -27,6 +27,7 @@ public class Vote extends AbstractBaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
+    // TODO try use datetime
     @Column(name = "on_date", nullable = false)
     @NotNull
     private LocalDate date;

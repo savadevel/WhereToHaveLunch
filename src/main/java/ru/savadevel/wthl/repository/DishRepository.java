@@ -3,10 +3,12 @@ package ru.savadevel.wthl.repository;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 import ru.savadevel.wthl.model.Dish;
 
 import java.util.List;
 
+@Transactional(readOnly = true)
 public interface DishRepository extends JpaRepository<Dish, Integer> {
 
     // TODO why does it work to load menus with EntityGraph, but without it an error occurs

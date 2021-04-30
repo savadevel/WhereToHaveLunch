@@ -1,48 +1,29 @@
 package ru.savadevel.wthl.web;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.savadevel.wthl.RestaurantTestData.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 class RestaurantControllerTest extends AbstractControllerTest {
     private static final String REST_URL = RestaurantController.REST_URL + '/';
 
     @Test
-    void get() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + RESTAURANT1_ID))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_MATCHER.contentJson(restaurant1));
+    void getMenusOnCurrentDate() {
     }
 
     @Test
-    void getAll() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_MATCHER.contentJson(restaurant1, restaurant2));
+    void getAmountVotesOnRestaurantsOnCurrentDate() {
     }
 
     @Test
-    void getMenus() {
+    void getVoteById() {
     }
 
     @Test
-    void getAmountVotesOnRestaurantsByDates() {
+    void createVote() {
     }
 
     @Test
-    void testGetAmountVotesOnRestaurantsByDates() {
-    }
-
-    @Test
-    void create() {
+    void updateVote() {
     }
 }
