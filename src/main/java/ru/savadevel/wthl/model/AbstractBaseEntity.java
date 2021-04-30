@@ -1,6 +1,5 @@
 package ru.savadevel.wthl.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.springframework.data.domain.Persistable;
@@ -40,7 +39,6 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
         return id;
     }
 
-    @JsonIgnore
     @Override
     public boolean isNew() {
         return this.id == null;
