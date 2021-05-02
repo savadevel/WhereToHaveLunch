@@ -10,13 +10,13 @@ import java.net.URI;
 import static ru.savadevel.wthl.util.ValidationUtil.checkNew;
 import static ru.savadevel.wthl.util.ValidationUtil.checkNotFoundWithId;
 
-public class WebUtils {
+public class WebUtil {
     public static final String PART_REST_URL_DISHES = "/dishes";
     public static final String PART_REST_URL_RESTAURANTS = "/restaurants";
     public static final String PART_REST_URL_MENUS = "/menus";
     public static final String PART_REST_URL_VOTES = "/votes";
 
-    private WebUtils() {
+    private WebUtil() {
     }
 
     public static <T extends AbstractBaseEntity> T getById(Integer id, JpaRepository<T, Integer> repository) {

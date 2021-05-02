@@ -7,8 +7,8 @@ import ru.savadevel.wthl.to.MenuTo;
 
 import java.time.LocalDate;
 
-public class MenuUtils {
-    private MenuUtils() {
+public class MenuUtil {
+    private MenuUtil() {
     }
 
     public static Menu createNewFromTo(MenuTo menuTo) {
@@ -16,6 +16,6 @@ public class MenuUtils {
     }
 
     public static MenuTo asTo(Menu menu) {
-        return new MenuTo(menu.getRestaurant().id(), menu.getDish().id());
+        return new MenuTo(menu.getId(), menu.getRestaurant().id(), menu.getDish().id());
     }
 }
