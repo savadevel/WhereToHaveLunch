@@ -1,4 +1,3 @@
-DELETE FROM user_roles;
 DELETE FROM users;
 DELETE FROM dishes;
 DELETE FROM restaurants;
@@ -6,17 +5,11 @@ DELETE FROM menus;
 DELETE FROM votes;
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
-INSERT INTO users (name, password)
-VALUES ('user1', 'password'),                        -- 100_000
-       ('user2', 'password'),                        -- 100_001
-       ('user3', 'password'),                        -- 100_002
-       ('admin', 'admin');                           -- 100_003
-
-INSERT INTO user_roles (role, user_id)
-VALUES ('USER', 100000),                           --
-       ('USER', 100001),                            --
-       ('USER', 100002),                            --
-       ('ADMIN', 100003);                           --
+INSERT INTO users (name, password, role)
+VALUES ('user1', 'password', 'USER'),                        -- 100_000
+       ('user2', 'password', 'USER'),                        -- 100_001
+       ('user3', 'password', 'USER'),                        -- 100_002
+       ('admin', 'admin', 'ADMIN');                           -- 100_003
 
 INSERT INTO dishes (name, price)
 VALUES ('first dish', 0.53),                        -- 100_004

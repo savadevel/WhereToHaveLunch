@@ -20,6 +20,7 @@ P.S.: Make sure everything works with latest version that is on github :)
 P.P.S.: Assume that your API will be used by a frontend developer to build frontend on top of that.
 
 Diagram of entities / tables:
+
 ![diagram.png](diagram.png)
 
 ## Using cURL for manage system for deciding where to have lunch by REST queries
@@ -29,8 +30,8 @@ Diagram of entities / tables:
 | [/rest/restaurants/menus](#Displays-menus-of-restaurants-on-current-date)                                                 | GET    | USER  | displays menus of restaurants on current date                                |
 | [/rest/restaurants/votes](#Display-amount-votes-on-restaurants-on-current-date)                                           | GET    | USER  | displays amount votes for restaurants on current date                        |
 | [/rest/restaurants/votes/{vote-id}](#Get-vote-by-id)                                                                      | GET    | USER  | get vote by id                                                               |
-| [/rest/restaurants/{restaurant-id}/votes](#Add-only-one-vote-for-the-restaurant-on-current-date)                          | POST   | USER  | add only one vote for the restaurant on current date, if it's before 11:00   |
-| [/rest/restaurants/{restaurant-id}/votes](#Change-vote-for-the-restaurant-on-current-date)                                | PUT    | USER  | change vote for the restaurant on current date, if it's before 11:00         |
+| [/rest/restaurants/votes](#Add-only-one-vote-for-the-restaurant-on-current-date)                                          | POST   | USER  | add only one vote for the restaurant on current date, if it's before 11:00   |
+| [/rest/restaurants/votes/{vote-id}](#Change-vote-for-the-restaurant-on-current-date)                                      | PATCH  | USER  | change vote for the restaurant on current date, if it's before 11:00         |
 | [/rest/profile/vote](#Displays-vote-of-the-user-on-current-date)                                                          | GET    | USER  | displays vote of the user on current date                                    |
 | [/rest/admin/restaurants](#Displays-dictionary-of-restaurants)                                                            | GET    | ADMIN | displays dictionary of restaurants                                           |
 | [/rest/admin/restaurants/{restaurant-id}](#Get-restaurant-by-id)                                                          | GET    | ADMIN | get restaurant by id                                                         |
@@ -143,17 +144,12 @@ Status: 200 OK
 ```
 {
     "id":1,
-    "date":"2021-01-01",
     "restaurant":
         {
             "id": 2,
             "name": "Good restaurant"
         },
-    "user":
-        {
-            "id:3,
-            "name":"user"
-        }
+    "date":"2021-01-01"
 } 
 ```
 
@@ -166,7 +162,8 @@ Code samples (shell)
 ```shell
 curl \
   -X POST \
-  http://localhost:8080/wthl/rest/restaurants/{restaurant-id}/votes
+  http://localhost:8080/wthl/rest/restaurants/votes
+  -d '{"restaurantsId":2}'
 ```
 
 Response
@@ -178,18 +175,13 @@ Location: /rest/restaurants/votes/{vote-id}
 
 ```
 {
-    "id":1,
-    "date":"2021-01-01",
+    "id":4,
     "restaurant":
         {
             "id": 2,
             "name": "Good restaurant"
         },
-    "user":
-        {
-            "id:3,
-            "name":"user"
-        }
+    "date":"2021-01-01"
 } 
 ```
 
@@ -201,8 +193,9 @@ Code samples (shell)
 
 ```shell
 curl \
-  -X PUT \
-  http://localhost:8080/wthl/rest/restaurants/{restaurant-id}/votes 
+  -X PATCH \
+  http://localhost:8080/wthl/rest/restaurants/votes/{vote-id} 
+  -d '{"id":4,"restaurantsId":3}'
 ```
 
 Response
@@ -232,17 +225,12 @@ Status: 200 OK
 ```
 {
     "id":1,
-    "date":"2021-01-01",
     "restaurant":
         {
             "id": 2,
             "name": "Good restaurant"
         },
-    "user":
-        {
-            "id:3,
-            "name":"user"
-        }
+    "date":"2021-01-01"
 } 
 ```
 
@@ -445,7 +433,7 @@ Status: 200 OK
 ]
 ```
 
-### Displays dictionary of menus the restaurant in the date
+### Displays dictionary of menus the restaurant on the date
 
 The operation available for ADMIN role
 
