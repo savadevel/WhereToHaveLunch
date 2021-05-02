@@ -3,17 +3,21 @@ package ru.savadevel.wthl.to;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.savadevel.wthl.util.validation.VoteDayConstraint;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-import static ru.savadevel.wthl.util.voteday.ProduceVoteDay.getVoteDay;
+import static ru.savadevel.wthl.util.votingday.ProduceVotingDay.getVotingDay;
 
 @Getter
 @NoArgsConstructor
 public class VoteTo extends BaseTo {
     @Setter
+    @NotNull
     private Integer restaurantId;
-    private final LocalDate date = getVoteDay().getNow();
+    @VoteDayConstraint
+    private final LocalDate date = getVotingDay().getNowDate();
 
     public VoteTo(Integer id, Integer restaurantId) {
         super(id);

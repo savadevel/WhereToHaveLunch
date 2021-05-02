@@ -4,11 +4,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Setter
 @NoArgsConstructor
 public class MenuTo extends BaseTo {
+    @NotNull
     private Integer restaurantId;
+    @NotNull
     private Integer dishId;
 
     public MenuTo(Integer id, Integer restaurantId, Integer dishId) {

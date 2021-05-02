@@ -7,8 +7,8 @@ import ru.savadevel.wthl.model.AbstractBaseEntity;
 
 import java.net.URI;
 
-import static ru.savadevel.wthl.util.ValidationUtil.checkNew;
-import static ru.savadevel.wthl.util.ValidationUtil.checkNotFoundWithId;
+import static ru.savadevel.wthl.util.validation.ValidationUtil.checkNew;
+import static ru.savadevel.wthl.util.validation.ValidationUtil.checkNotFoundWithId;
 
 public class WebUtil {
     public static final String PART_REST_URL_DISHES = "/dishes";

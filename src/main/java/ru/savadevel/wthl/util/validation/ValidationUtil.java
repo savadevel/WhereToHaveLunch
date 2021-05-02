@@ -1,4 +1,4 @@
-package ru.savadevel.wthl.util;
+package ru.savadevel.wthl.util.validation;
 
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.lang.NonNull;
@@ -16,11 +16,6 @@ public class ValidationUtil {
 
     public static void checkNotFoundWithId(boolean found, int id) {
         checkNotFound(found, "id=" + id);
-    }
-
-    public static <T> T checkNotFound(T object, String msg) {
-        checkNotFound(object != null, msg);
-        return object;
     }
 
     public static void checkNotFound(boolean found, String msg) {

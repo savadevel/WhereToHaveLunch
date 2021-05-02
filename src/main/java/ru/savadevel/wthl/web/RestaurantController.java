@@ -12,11 +12,12 @@ import ru.savadevel.wthl.repository.VoteRepository;
 import ru.savadevel.wthl.to.VoteTo;
 import ru.savadevel.wthl.util.VoteUtil;
 
+import javax.validation.Valid;
 import java.util.List;
 
-import static ru.savadevel.wthl.util.ValidationUtil.assureIdConsistent;
-import static ru.savadevel.wthl.util.ValidationUtil.checkNotFoundWithId;
-import static ru.savadevel.wthl.util.voteday.ProduceVoteDay.getVoteDay;
+import static ru.savadevel.wthl.util.validation.ValidationUtil.assureIdConsistent;
+import static ru.savadevel.wthl.util.validation.ValidationUtil.checkNotFoundWithId;
+import static ru.savadevel.wthl.util.votingday.ProduceVotingDay.getVotingDay;
 import static ru.savadevel.wthl.web.WebUtil.*;
 
 @RestController
@@ -35,12 +36,12 @@ public class RestaurantController {
     // TODO now REST query like: resource/subresource, maybe must be like: resource/{resource-id}/subresource
     @GetMapping(PART_REST_URL_MENUS)
     public List<Menu> getMenusOnCurrentDate() {
-        return menuRepository.getAllByDate(getVoteDay().getNow());
+        return menuRepository.getAllByDate(getVotingDay().getNowDate());
     }
 
     @GetMapping(PART_REST_URL_VOTES)
     public List<Votes> getAmountVotesForRestaurantsOnCurrentDate() {
-        return voteRepository.getAmountVotesForRestaurants(getVoteDay().getNow());
+        return voteRepository.getAmountVotesForRestaurants(getVotingDay().getNowDate());
     }
 
     @GetMapping(PART_REST_URL_VOTES + "/{voteId}")
@@ -49,14 +50,14 @@ public class RestaurantController {
     }
 
     @PostMapping(value = PART_REST_URL_VOTES, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> createVote(@RequestBody VoteTo voteTo) {
+    public ResponseEntity<Vote> createVote(@Valid @RequestBody VoteTo voteTo) {
         // TODO return ID restaurant without his name
         return add(VoteUtil.createNewFromTo(voteTo), REST_URL + PART_REST_URL_VOTES, voteRepository);
     }
 
     @PatchMapping(value = PART_REST_URL_VOTES + "/{voteId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateVote(@RequestBody VoteTo voteTo, @PathVariable Integer voteId) {
+    public void updateVote(@Valid @RequestBody VoteTo voteTo, @PathVariable Integer voteId) {
         Vote vote = VoteUtil.updateFromTo(new Vote(), voteTo);
         assureIdConsistent(vote, voteId);
         checkNotFoundWithId(voteRepository.save(vote), vote.id());

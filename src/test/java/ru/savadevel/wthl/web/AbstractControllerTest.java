@@ -1,5 +1,6 @@
 package ru.savadevel.wthl.web;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.MediaType;
@@ -20,8 +21,9 @@ import ru.savadevel.wthl.web.json.JsonUtil;
 import javax.annotation.PostConstruct;
 import java.net.URI;
 import java.time.Clock;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.function.Function;
 
 import static org.hamcrest.Matchers.endsWith;
@@ -30,7 +32,7 @@ import static org.springframework.http.HttpHeaders.LOCATION;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static ru.savadevel.wthl.TestUtil.readFromJson;
-import static ru.savadevel.wthl.util.voteday.ProduceVoteDay.getVoteDay;
+import static ru.savadevel.wthl.util.votingday.ProduceVotingDay.getVotingDay;
 
 @SpringJUnitWebConfig(locations = {
         "classpath:spring/spring-app.xml",
@@ -40,7 +42,7 @@ import static ru.savadevel.wthl.util.voteday.ProduceVoteDay.getVoteDay;
 @Transactional
 public class AbstractControllerTest {
     private static final CharacterEncodingFilter CHARACTER_ENCODING_FILTER = new CharacterEncodingFilter();
-    private final static LocalDate LOCAL_DATE = LocalDate.of(2021, 1, 1);
+    private final static LocalDateTime LOCAL_DATE_TIME = LocalDateTime.of(2021, 1, 1, 10, 0, 0, 0);
 
     static {
         CHARACTER_ENCODING_FILTER.setEncoding("UTF-8");
@@ -59,7 +61,17 @@ public class AbstractControllerTest {
 //                .addFilter(CHARACTER_ENCODING_FILTER)
 //                .apply(springSecurity())
                 .build();
-        getVoteDay().setClock(Clock.fixed(LOCAL_DATE.atStartOfDay(ZoneId.systemDefault()).toInstant(), ZoneId.systemDefault()));
+    }
+
+    @BeforeEach
+    private void init() {
+        setDateTime(LOCAL_DATE_TIME);
+    }
+
+    protected void setDateTime(LocalDateTime dateTime) {
+        ZoneId systemZone = ZoneId.systemDefault();
+        ZoneOffset systemZoneOffset = systemZone.getRules().getOffset(dateTime);
+        getVotingDay().setClock(Clock.fixed(dateTime.toInstant(systemZoneOffset), ZoneId.systemDefault()));
     }
 
     protected ResultActions perform(MockHttpServletRequestBuilder builder) throws Exception {

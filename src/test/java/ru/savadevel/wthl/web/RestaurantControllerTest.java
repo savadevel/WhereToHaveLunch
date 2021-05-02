@@ -11,6 +11,7 @@ import ru.savadevel.wthl.util.VoteUtil;
 import ru.savadevel.wthl.web.json.JsonUtil;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,6 +26,7 @@ import static ru.savadevel.wthl.web.WebUtil.PART_REST_URL_VOTES;
 class RestaurantControllerTest extends AbstractControllerTest {
     private static final String REST_URL_MENUS = RestaurantController.REST_URL + PART_REST_URL_MENUS + "/";
     private static final String REST_URL_VOTES = RestaurantController.REST_URL + PART_REST_URL_VOTES + "/";
+    private final static LocalDateTime VOTE_TIME_INVALID = LocalDateTime.of(2021, 1, 1, 11, 0, 0, 0);
 
     @Autowired
     private VoteRepository repository;
@@ -50,6 +52,16 @@ class RestaurantControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void createWithInvalidVote() throws Exception {
+        setDateTime(VOTE_TIME_INVALID);
+        perform(MockMvcRequestBuilders.post(URI.create(REST_URL_VOTES))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(asTo(VoteTestData.getNew()))))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
     void updateVote() throws Exception {
         Vote updated = repository.save(VoteTestData.getNew());
         updated.setRestaurant(restaurant2);
@@ -62,5 +74,15 @@ class RestaurantControllerTest extends AbstractControllerTest {
         VOTE_MATCHER.assertMatch(repository.findById(updated.id()).orElse(null), updated);
     }
 
-    // TODO add test for invalid vote
+    @Test
+    void updateWithInvalidVote() throws Exception {
+        Vote updated = repository.save(VoteTestData.getNew());
+        updated.setRestaurant(restaurant2);
+        setDateTime(VOTE_TIME_INVALID);
+        perform(MockMvcRequestBuilders.patch(URI.create(REST_URL_VOTES + updated.id()))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(asTo(updated))))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
 }

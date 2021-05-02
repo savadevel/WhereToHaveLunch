@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.savadevel.wthl.model.Vote;
 import ru.savadevel.wthl.repository.VoteRepository;
 
-import static ru.savadevel.wthl.util.voteday.ProduceVoteDay.getVoteDay;
+import static ru.savadevel.wthl.util.votingday.ProduceVotingDay.getVotingDay;
 import static ru.savadevel.wthl.web.WebUtil.PART_REST_URL_VOTES;
 
 @RestController
@@ -23,6 +23,6 @@ public class ProfileController {
 
     @GetMapping(PART_REST_URL_VOTES)
     public Vote getVote() {
-        return voteRepository.getVoteByUserIdAndDate(SecurityUtil.authUserId(), getVoteDay().getNow());
+        return voteRepository.getVoteByUserIdAndDate(SecurityUtil.authUserId(), getVotingDay().getNowDate());
     }
 }
