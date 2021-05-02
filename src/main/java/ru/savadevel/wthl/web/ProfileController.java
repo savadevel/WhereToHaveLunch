@@ -4,8 +4,11 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.savadevel.wthl.model.Restaurant;
+import ru.savadevel.wthl.model.Vote;
 import ru.savadevel.wthl.repository.VoteRepository;
+
+import static ru.savadevel.wthl.util.voteday.ProduceVoteDay.getVoteDay;
+import static ru.savadevel.wthl.web.WebUtil.PART_REST_URL_VOTES;
 
 @RestController
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -18,8 +21,8 @@ public class ProfileController {
         this.voteRepository = voteRepository;
     }
 
-    @GetMapping("/vote")
-    public Restaurant getVote() {
-        return null;
+    @GetMapping(PART_REST_URL_VOTES)
+    public Vote getVote() {
+        return voteRepository.getVoteByUserIdAndDate(SecurityUtil.authUserId(), getVoteDay().getNow());
     }
 }

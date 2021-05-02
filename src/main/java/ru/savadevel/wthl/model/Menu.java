@@ -21,12 +21,12 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "menus", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "dish_id", "on_date"}, name = "menus_unique_restaurant_dish_on_date_idx")})
 public class Menu extends AbstractBaseEntity {
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "dish_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Dish dish;

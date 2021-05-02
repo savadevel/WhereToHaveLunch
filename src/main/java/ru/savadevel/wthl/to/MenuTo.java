@@ -1,15 +1,19 @@
 package ru.savadevel.wthl.to;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class MenuTo {
+public class MenuTo extends BaseTo {
     private Integer restaurantId;
     private Integer dishId;
+
+    public MenuTo(Integer id, Integer restaurantId, Integer dishId) {
+        super(id);
+        this.restaurantId = restaurantId;
+        this.dishId = dishId;
+    }
 }

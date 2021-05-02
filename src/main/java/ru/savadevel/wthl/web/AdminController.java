@@ -11,13 +11,13 @@ import ru.savadevel.wthl.repository.DishRepository;
 import ru.savadevel.wthl.repository.MenuRepository;
 import ru.savadevel.wthl.repository.RestaurantRepository;
 import ru.savadevel.wthl.to.MenuTo;
-import ru.savadevel.wthl.util.MenuUtils;
+import ru.savadevel.wthl.util.MenuUtil;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
-import static ru.savadevel.wthl.web.WebUtils.*;
+import static ru.savadevel.wthl.web.WebUtil.*;
 
 @RestController
 @RequestMapping(value = AdminController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -84,6 +84,7 @@ public class AdminController {
 
     @PostMapping(value = PART_REST_URL_MENUS, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Menu> addMenu(@Valid @RequestBody MenuTo menuTo) {
-        return add(MenuUtils.createNewFromTo(menuTo), PART_REST_URL_MENUS, menuRepository);
+        // TODO return ID restaurant without his name, same for dish
+        return add(MenuUtil.createNewFromTo(menuTo), PART_REST_URL_MENUS, menuRepository);
     }
 }

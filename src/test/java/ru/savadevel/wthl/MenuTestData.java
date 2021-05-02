@@ -1,6 +1,7 @@
 package ru.savadevel.wthl;
 
 import ru.savadevel.wthl.model.Menu;
+import ru.savadevel.wthl.to.MenuTo;
 
 import java.time.LocalDate;
 
@@ -13,6 +14,7 @@ import static ru.savadevel.wthl.model.AbstractBaseEntity.START_SEQ;
 
 public class MenuTestData {
     public static TestMatcher<Menu> MENU_MATCHER = TestMatcher.usingIgnoringFieldsComparator(Menu.class, "restaurant", "dish");
+    public static TestMatcher<MenuTo> MENU_TO_MATCHER = TestMatcher.usingIgnoringFieldsComparator(MenuTo.class);
 
     public static final int MENU1_ID = START_SEQ + 8;
 

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.savadevel.wthl.model.Vote;
 import ru.savadevel.wthl.model.Votes;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,8 +15,9 @@ import java.util.List;
 public interface VoteRepository extends JpaRepository<Vote, Integer> {
     @Query("select v.date as date, v.restaurant as restaurant,  count(v.id) as votes " +
             "from Vote v " +
-            "where v.date=:date or :date is null " +
+            "where v.date=:date " +
             "group by v.date, v.restaurant.id, v.restaurant.name " +
             "order by v.date desc, count(v.id) desc, v.restaurant.name")
     List<Votes> getAmountVotesForRestaurants(@Param("date") LocalDate date);
+    Vote getVoteByUserIdAndDate(Integer userId, @NotNull LocalDate date);
 }
