@@ -1,14 +1,25 @@
 package ru.savadevel.wthl.web;
 
-import ru.savadevel.wthl.model.AbstractBaseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import static java.util.Objects.requireNonNull;
 
 public class SecurityUtil {
-    private static int id = AbstractBaseEntity.START_SEQ;
-
     private SecurityUtil() {
     }
 
-    public static int authUserId() {
-        return id;
+    public static UserDetails safeGet() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null) {
+            return null;
+        }
+        Object principal = auth.getPrincipal();
+        return (principal instanceof UserDetails) ? (UserDetails) principal : null;
+    }
+
+    public static UserDetails get() {
+        return requireNonNull(safeGet(), "No authorized user found");
     }
 }

@@ -9,7 +9,7 @@ import static ru.savadevel.wthl.model.AbstractBaseEntity.START_SEQ;
 public class DishTestData {
     public static TestMatcher<Dish> DISH_MATCHER = TestMatcher.usingIgnoringFieldsComparator(Dish.class);
 
-    public static final int DISH1_ID = START_SEQ + 4;
+    public static final int DISH1_ID = START_SEQ;
 
     public static final Dish dish1 = new Dish(DISH1_ID, "first dish", BigDecimal.valueOf(0.53));
     public static final Dish dish2 = new Dish(DISH1_ID + 1, "second dish", BigDecimal.valueOf(5.03));

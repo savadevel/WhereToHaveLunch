@@ -16,7 +16,7 @@ public class MenuTestData {
     public static TestMatcher<Menu> MENU_MATCHER = TestMatcher.usingIgnoringFieldsComparator(Menu.class, "restaurant", "dish");
     public static TestMatcher<MenuTo> MENU_TO_MATCHER = TestMatcher.usingIgnoringFieldsComparator(MenuTo.class);
 
-    public static final int MENU1_ID = START_SEQ + 8;
+    public static final int MENU1_ID = START_SEQ + 4;
 
     public static final Menu menu1 = new Menu(MENU1_ID, restaurant1, dish1, of(2021, 1, 1));
     public static final Menu menu2 = new Menu(MENU1_ID + 1, restaurant1, dish2, of(2021, 1, 1));

@@ -5,5 +5,5 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.savadevel.wthl.model.User;
 
 @Transactional(readOnly = true)
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, String> {
 }

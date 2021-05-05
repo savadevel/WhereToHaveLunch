@@ -15,6 +15,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import ru.savadevel.wthl.TestMatcher;
 import ru.savadevel.wthl.model.AbstractBaseEntity;
+import ru.savadevel.wthl.model.User;
 import ru.savadevel.wthl.to.BaseTo;
 import ru.savadevel.wthl.web.json.JsonUtil;
 
@@ -29,9 +30,11 @@ import java.util.function.Function;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.http.HttpHeaders.LOCATION;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static ru.savadevel.wthl.TestUtil.readFromJson;
+import static ru.savadevel.wthl.TestUtil.userHttpBasic;
 import static ru.savadevel.wthl.util.votingday.ProduceVotingDay.getVotingDay;
 
 @SpringJUnitWebConfig(locations = {
@@ -58,8 +61,8 @@ public class AbstractControllerTest {
     private void postConstruct() {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
-//                .addFilter(CHARACTER_ENCODING_FILTER)
-//                .apply(springSecurity())
+                .addFilter(CHARACTER_ENCODING_FILTER)
+                .apply(springSecurity())
                 .build();
     }
 
@@ -79,29 +82,31 @@ public class AbstractControllerTest {
     }
 
     @SafeVarargs
-    protected final <T> void checkGet(URI uri, TestMatcher<T> matcher, T... expected) throws Exception {
-        perform(MockMvcRequestBuilders.get(uri))
+    protected final <T> void checkGet(URI uri, User user, TestMatcher<T> matcher, T... expected) throws Exception {
+        perform(MockMvcRequestBuilders.get(uri).with(userHttpBasic(user)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(matcher.contentJson(expected));
     }
 
-    protected <T> ResultActions getResultActionsPost(URI uri, T content) throws Exception {
+    protected <T> ResultActions getResultActionsPost(URI uri, User user, T content) throws Exception {
         return perform(MockMvcRequestBuilders.post(uri)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(content)))
+                .content(JsonUtil.writeValue(content))
+                .with(userHttpBasic(user)))
                 .andExpect(status().isCreated())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
     protected <T extends AbstractBaseEntity> void checkPost(URI uri,
-                                                            TestMatcher<T> matcher,
+                                                            User user,
+                                                            TestMatcher<T>matcher,
                                                             T newEntity,
                                                             Class<T> clazz,
                                                             JpaRepository<T, Integer> repository) throws Exception {
-        ResultActions action = getResultActionsPost(uri, newEntity);
+        ResultActions action = getResultActionsPost(uri, user, newEntity);
         T created = readFromJson(action, clazz);
         newEntity.setId(created.id());
         action.andExpect(header().stringValues(LOCATION, hasItem(endsWith(uri.getPath() + created.id()))));
@@ -110,13 +115,14 @@ public class AbstractControllerTest {
     }
 
     protected <T extends BaseTo, S extends AbstractBaseEntity> void checkPostTo(URI uri,
+                                                                                User user,
                                                                                 TestMatcher<T> matcher,
                                                                                 S newEntity,
                                                                                 Class<S> clazz,
                                                                                 Function<S, T> asTo,
                                                                                 JpaRepository<S, Integer> repository) throws Exception {
         T newTo = asTo.apply(newEntity);
-        ResultActions action = getResultActionsPost(uri, newTo);
+        ResultActions action = getResultActionsPost(uri, user, newTo);
         S created = readFromJson(action, clazz);
         newTo.setId(created.id());
         matcher.assertMatch(asTo.apply(created), newTo);

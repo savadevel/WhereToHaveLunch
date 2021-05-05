@@ -31,6 +31,6 @@ public class VoteUtil {
     }
 
     private static User getUser() {
-        return new User(SecurityUtil.authUserId(), null, null, Role.USER);
+        return new User(SecurityUtil.get().getUsername(), null, Role.USER);
     }
 }

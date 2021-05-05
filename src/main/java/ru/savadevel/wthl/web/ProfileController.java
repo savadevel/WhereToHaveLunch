@@ -23,6 +23,6 @@ public class ProfileController {
 
     @GetMapping(PART_REST_URL_VOTES)
     public Vote getVote() {
-        return voteRepository.getVoteByUserIdAndDate(SecurityUtil.authUserId(), getVotingDay().getNowDate());
+        return voteRepository.getVoteByUserUsernameAndDate(SecurityUtil.get().getUsername(), getVotingDay().getNowDate());
     }
 }

@@ -14,12 +14,12 @@ import java.time.LocalDate;
 @ToString(callSuper = true)
 @NoArgsConstructor
 @Entity
-@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "on_date"}, name = "votes_unique_restaurant_user_on_date_idx")})
+@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"username", "on_date"}, name = "votes_unique_restaurant_user_on_date_idx")})
 public class Vote extends AbstractBaseEntity {
 
     // TODO possible without ManyToOne, only JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "username", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private User user;
@@ -39,5 +39,12 @@ public class Vote extends AbstractBaseEntity {
         this.user = user;
         this.restaurant = restaurant;
         this.date = date;
+    }
+
+    public Vote(Vote vote) {
+        super(vote.id);
+        this.user = vote.user;
+        this.restaurant = vote.restaurant;
+        this.date = vote.date;
     }
 }
