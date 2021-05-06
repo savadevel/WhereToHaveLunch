@@ -45,6 +45,7 @@ Code samples (shell)
 ```shell
 curl \
   -X GET \
+  --user username:password \
   http://localhost:8080/wthl/rest/restaurants/menus
 ```
 
@@ -83,6 +84,7 @@ Code samples (shell)
 ```shell
 curl \
   -X GET \
+  --user username:password \
   http://localhost:8080/wthl/rest/restaurants/votes
 ```
 
@@ -124,6 +126,7 @@ Code samples (shell)
 ```shell
 curl \
   -X GET \
+  --user username:password \
   http://localhost:8080/wthl/rest/restaurants/votes/{vote-id}
 ```
 
@@ -154,7 +157,8 @@ Code samples (shell)
 ```shell
 curl \
   -X POST \
-  http://localhost:8080/wthl/rest/restaurants/votes
+  --user username:password \
+  http://localhost:8080/wthl/rest/restaurants/votes \
   -d '{"restaurantsId":2}'
 ```
 
@@ -186,7 +190,8 @@ Code samples (shell)
 ```shell
 curl \
   -X PATCH \
-  http://localhost:8080/wthl/rest/restaurants/votes/{vote-id} 
+  --user username:password \
+  http://localhost:8080/wthl/rest/restaurants/votes/{vote-id} \
   -d '{"id":4,"restaurantsId":3}'
 ```
 
@@ -205,6 +210,7 @@ Code samples (shell)
 ```shell
 curl \
   -X GET \
+  --user username:password \
   http://localhost:8080/wthl/rest/profile/vote
 ```
 
@@ -235,6 +241,7 @@ Code samples (shell)
 ```shell
 curl \
   -X GET \
+  --user username:password \
   http://localhost:8080/wthl/rest/admin/restaurants
 ```
 
@@ -262,6 +269,7 @@ Code samples (shell)
 ```shell
 curl \
   -X GET \
+  --user username:password \
   http://localhost:8080/wthl/rest/admin/restaurants/1
 ```
 
@@ -287,7 +295,8 @@ Code samples (shell)
 ```shell
 curl \
   -X POST \
-  http://localhost:8080/wthl/rest/admin/restaurants
+  --user username:password \
+  http://localhost:8080/wthl/rest/admin/restaurants \
   -d '{"name":"Name of new Restaurant"}'
 ```
 
@@ -314,6 +323,7 @@ Code samples (shell)
 ```shell
 curl \
   -X GET \
+  --user username:password \
   http://localhost:8080/wthl/rest/admin/dishes
 ```
 
@@ -342,6 +352,7 @@ Code samples (shell)
 ```shell
 curl \
   -X GET \
+  --user username:password \
   http://localhost:8080/wthl/rest/admin/dishes/3
 ```
 
@@ -368,7 +379,8 @@ Code samples (shell)
 ```shell
 curl \
   -X POST \
-  http://localhost:8080/wthl/rest/admin/dishes
+  --user username:password \
+  http://localhost:8080/wthl/rest/admin/dishes \
   -d '{"name":"Name of new dish","price":1.23}'
 ```
 
@@ -396,6 +408,7 @@ Code samples (shell)
 ```shell
 curl \
   -X GET \
+  --user username:password \
   http://localhost:8080/wthl/rest/admin/restaurants/{restaurant-id}/menus
 ```
 
@@ -434,6 +447,7 @@ Code samples (shell)
 ```shell
 curl \
   -X GET \
+  --user username:password \
   http://localhost:8080/wthl/rest/admin/restaurants/{restaurant-id}/menus?date=2021-01-01
 ```
 
@@ -472,6 +486,7 @@ Code samples (shell)
 ```shell
 curl \
   -X GET \
+  --user username:password \
   http://localhost:8080/wthl/rest/admin/menus/{menu-id}
 ```
 
@@ -508,7 +523,8 @@ Code samples (shell)
 ```shell
 curl \
   -X POST \
-  http://localhost:8080/wthl/rest/admin/menus 
+  --user username:password \
+  http://localhost:8080/wthl/rest/admin/menus \
   -d '{"restaurantId":2,"dishId":4}'
 ```
 
