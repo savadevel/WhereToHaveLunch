@@ -59,32 +59,32 @@ public class AdminController {
 
     @GetMapping(PART_REST_URL_DISHES + "/{dishId}")
     public Dish getDishById(@PathVariable Integer dishId) {
-        return getById(dishId, dishRepository);
+        return dishRepository.getById(dishId);
     }
 
     @GetMapping(PART_REST_URL_RESTAURANTS + "/{restaurantId}")
     public Restaurant getRestaurantById(@PathVariable Integer restaurantId) {
-        return getById(restaurantId, restaurantRepository);
+        return restaurantRepository.getById(restaurantId);
     }
 
     @GetMapping(PART_REST_URL_MENUS + "/{menuId}")
     public Menu getMenuByIs(@PathVariable Integer menuId) {
-        return getById(menuId, menuRepository);
+        return menuRepository.getById(menuId);
     }
 
     @PostMapping(value = PART_REST_URL_DISHES, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Dish>  addDish(@Valid @RequestBody Dish dish) {
-        return add(dish, REST_URL + PART_REST_URL_DISHES, dishRepository);
+        return add(dish, REST_URL + PART_REST_URL_DISHES, dishRepository::save);
     }
 
     @PostMapping(value = PART_REST_URL_RESTAURANTS, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> addRestaurant(@Valid @RequestBody Restaurant restaurant) {
-        return add(restaurant, REST_URL + PART_REST_URL_RESTAURANTS, restaurantRepository);
+        return add(restaurant, REST_URL + PART_REST_URL_RESTAURANTS, restaurantRepository::save);
     }
 
     @PostMapping(value = PART_REST_URL_MENUS, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Menu> addMenu(@Valid @RequestBody MenuTo menuTo) {
         // TODO return ID restaurant without his name, same for dish
-        return add(MenuUtil.createNewFromTo(menuTo), PART_REST_URL_MENUS, menuRepository);
+        return add(MenuUtil.createNewFromTo(menuTo), PART_REST_URL_MENUS, menuRepository::save);
     }
 }

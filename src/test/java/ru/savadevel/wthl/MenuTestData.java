@@ -1,6 +1,8 @@
 package ru.savadevel.wthl;
 
+import ru.savadevel.wthl.model.Dish;
 import ru.savadevel.wthl.model.Menu;
+import ru.savadevel.wthl.model.Restaurant;
 import ru.savadevel.wthl.to.MenuTo;
 
 import java.time.LocalDate;
@@ -26,7 +28,7 @@ public class MenuTestData {
     public static final Menu menu6 = new Menu(MENU1_ID + 5, restaurant2, dish1, of(2021, 1, 3));
     public static final Menu menu7 = new Menu(MENU1_ID + 6, restaurant2, dish2, of(2021, 1, 3));
 
-    public static Menu getNew() {
-        return new Menu(null, restaurant1, dish1, LocalDate.now());
+    public static Menu getNew(Restaurant restaurant, Dish dish) {
+        return new Menu(null, restaurant, dish, LocalDate.now());
     }
 }

@@ -8,7 +8,7 @@ import ru.savadevel.wthl.model.Vote;
 import ru.savadevel.wthl.repository.VoteRepository;
 
 import static ru.savadevel.wthl.util.votingday.ProduceVotingDay.getVotingDay;
-import static ru.savadevel.wthl.web.WebUtil.PART_REST_URL_VOTES;
+import static ru.savadevel.wthl.web.WebUtil.PART_REST_URL_VOTE;
 
 @RestController
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -21,7 +21,7 @@ public class ProfileController {
         this.voteRepository = voteRepository;
     }
 
-    @GetMapping(PART_REST_URL_VOTES)
+    @GetMapping(PART_REST_URL_VOTE)
     public Vote getVote() {
         return voteRepository.getVoteByUserUsernameAndDate(SecurityUtil.get().getUsername(), getVotingDay().getNowDate());
     }

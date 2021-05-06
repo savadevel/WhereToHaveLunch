@@ -3,6 +3,7 @@ package ru.savadevel.wthl.web;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.savadevel.wthl.model.Menu;
 import ru.savadevel.wthl.model.Vote;
@@ -41,18 +42,18 @@ public class RestaurantController {
 
     @GetMapping(PART_REST_URL_VOTES)
     public List<Votes> getAmountVotesForRestaurantsOnCurrentDate() {
-        return voteRepository.getAmountVotesForRestaurants(getVotingDay().getNowDate());
+        return voteRepository.getAmount(getVotingDay().getNowDate());
     }
 
     @GetMapping(PART_REST_URL_VOTES + "/{voteId}")
     public Vote getVoteById(@PathVariable Integer voteId) {
-        return getById(voteId, voteRepository);
+        return checkNotFoundWithId(voteRepository.getVoteByIdAndUserUsername(voteId, SecurityUtil.get().getUsername()), voteId);
     }
 
     @PostMapping(value = PART_REST_URL_VOTES, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vote> createVote(@Valid @RequestBody VoteTo voteTo) {
         // TODO return ID restaurant without his name
-        return add(VoteUtil.createNewFromTo(voteTo), REST_URL + PART_REST_URL_VOTES, voteRepository);
+        return add(VoteUtil.createNewFromTo(voteTo), REST_URL + PART_REST_URL_VOTES, this::saveOrUpdate);
     }
 
     @PatchMapping(value = PART_REST_URL_VOTES + "/{voteId}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -60,6 +61,14 @@ public class RestaurantController {
     public void updateVote(@Valid @RequestBody VoteTo voteTo, @PathVariable Integer voteId) {
         Vote vote = VoteUtil.updateFromTo(new Vote(), voteTo);
         assureIdConsistent(vote, voteId);
-        checkNotFoundWithId(voteRepository.save(vote), vote.id());
+        checkNotFoundWithId(saveOrUpdate(vote), vote.id());
+    }
+
+    @Transactional
+    protected Vote saveOrUpdate(Vote vote) {
+        if (!vote.isNew() && voteRepository.getVoteByIdAndUserUsername(vote.id(), vote.getUser().getUsername()) == null) {
+            return null;
+        }
+        return voteRepository.save(vote);
     }
 }

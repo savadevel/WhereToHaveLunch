@@ -1,31 +1,27 @@
 package ru.savadevel.wthl.web;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.savadevel.wthl.model.AbstractBaseEntity;
 
 import java.net.URI;
+import java.util.function.Function;
 
 import static ru.savadevel.wthl.util.validation.ValidationUtil.checkNew;
-import static ru.savadevel.wthl.util.validation.ValidationUtil.checkNotFoundWithId;
 
 public class WebUtil {
     public static final String PART_REST_URL_DISHES = "/dishes";
     public static final String PART_REST_URL_RESTAURANTS = "/restaurants";
     public static final String PART_REST_URL_MENUS = "/menus";
     public static final String PART_REST_URL_VOTES = "/votes";
+    public static final String PART_REST_URL_VOTE = "/vote";
 
     private WebUtil() {
     }
 
-    public static <T extends AbstractBaseEntity> T getById(Integer id, JpaRepository<T, Integer> repository) {
-        return checkNotFoundWithId(repository.findById(id).orElse(null), id);
-    }
-
-    public static <T extends AbstractBaseEntity> ResponseEntity<T> add(T entity, String path, JpaRepository<T, Integer> repository) {
+    public static <T extends AbstractBaseEntity> ResponseEntity<T> add(T entity, String path, Function<T, T> save) {
         checkNew(entity);
-        T created = repository.save(entity);
+        T created = save.apply(entity);
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(path + "/{id}")
                 .buildAndExpand(created.getId()).toUri();

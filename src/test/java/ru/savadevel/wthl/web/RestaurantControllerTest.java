@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.savadevel.wthl.UserTestData;
 import ru.savadevel.wthl.VoteTestData;
+import ru.savadevel.wthl.model.Role;
 import ru.savadevel.wthl.model.Vote;
 import ru.savadevel.wthl.repository.VoteRepository;
 import ru.savadevel.wthl.util.VoteUtil;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.savadevel.wthl.MenuTestData.*;
+import static ru.savadevel.wthl.RestaurantTestData.restaurant1;
 import static ru.savadevel.wthl.RestaurantTestData.restaurant2;
 import static ru.savadevel.wthl.TestUtil.userHttpBasic;
 import static ru.savadevel.wthl.UserTestData.*;
@@ -52,7 +54,8 @@ class RestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     void createVote() throws Exception {
-        checkPostTo(URI.create(REST_URL_VOTES), user4, VOTE_TO_MATCHER, VoteTestData.getNew(), Vote.class, VoteUtil::asTo, repository);
+        checkPostTo(URI.create(REST_URL_VOTES), user4, VOTE_TO_MATCHER, VoteTestData.getNew(restaurant1),
+                Vote.class, VoteUtil::asTo, (id) -> repository.getVoteByIdAndUserUsername(id, user4.getUsername()));
     }
 
     @Test
@@ -60,9 +63,9 @@ class RestaurantControllerTest extends AbstractControllerTest {
         setDateTime(VOTE_TIME_INVALID);
         perform(MockMvcRequestBuilders.post(URI.create(REST_URL_VOTES))
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(asTo(VoteTestData.getNew())))
+                .content(JsonUtil.writeValue(asTo(VoteTestData.getNew(restaurant1))))
                 .with(userHttpBasic(user1)))
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
     }
 
@@ -77,7 +80,7 @@ class RestaurantControllerTest extends AbstractControllerTest {
                 .andExpect(status().isNoContent())
                 .andDo(print());
 
-        VOTE_MATCHER.assertMatch(repository.findById(updated.id()).orElse(null), updated);
+        VOTE_MATCHER.assertMatch(repository.getVoteByIdAndUserUsername(updated.id(), user1.getUsername()), updated);
     }
 
     @Test
@@ -89,7 +92,7 @@ class RestaurantControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(asTo(updated)))
                 .with(userHttpBasic(user1)))
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
     }
 
@@ -101,7 +104,7 @@ class RestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     void getVotesUnauthorized() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_VOTES).with(userHttpBasic(UserTestData.getNewWithUserRole())))
+        perform(MockMvcRequestBuilders.get(REST_URL_VOTES).with(userHttpBasic(UserTestData.getNew(Role.USER))))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -113,7 +116,7 @@ class RestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     void getMenusUnauthorized() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_MENUS).with(userHttpBasic(UserTestData.getNewWithUserRole())))
+        perform(MockMvcRequestBuilders.get(REST_URL_MENUS).with(userHttpBasic(UserTestData.getNew(Role.USER))))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -124,14 +127,26 @@ class RestaurantControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.patch(URI.create(REST_URL_VOTES + updated.id()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(asTo(updated)))
-                .with(userHttpBasic(user2)))
-                .andExpect(status().isNoContent())
+                .with(userHttpBasic(user4)))
+                .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
-
-        VOTE_MATCHER.assertMatch(repository.findById(updated.id()).orElse(null), updated);
     }
 
-    // TODO many votes by restaurant on one date
-// TODO select vote other user
+    @Test
+    void createManyVoteByOneUser() throws Exception {
+        Vote newVote = VoteTestData.getNew(restaurant2);
+        perform(MockMvcRequestBuilders.post(URI.create(REST_URL_VOTES))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(asTo(newVote)))
+                .with(userHttpBasic(user1)))
+                .andExpect(status().isConflict())
+                .andDo(print());
+    }
 
+    @Test
+    void getNotFound() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL_VOTES + vote1.getId()).with(userHttpBasic(user2)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
 }

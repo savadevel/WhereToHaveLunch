@@ -1,5 +1,6 @@
 package ru.savadevel.wthl;
 
+import ru.savadevel.wthl.model.Restaurant;
 import ru.savadevel.wthl.model.Vote;
 import ru.savadevel.wthl.to.VoteTo;
 
@@ -26,7 +27,7 @@ public class VoteTestData {
     public static final Vote vote8 = new Vote(VOTE1_ID + 7, user2, restaurant2, of(2021, 1,3));
     public static final Vote vote9 = new Vote(VOTE1_ID + 8, user3, restaurant2, of(2021, 1,3));
 
-    public static Vote getNew() {
-        return new Vote(null, null, restaurant1, getVotingDay().getNowDate());
+    public static Vote getNew(Restaurant restaurant) {
+        return new Vote(null, null, restaurant, getVotingDay().getNowDate());
     }
 }

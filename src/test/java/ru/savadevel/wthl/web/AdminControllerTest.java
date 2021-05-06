@@ -11,6 +11,7 @@ import ru.savadevel.wthl.UserTestData;
 import ru.savadevel.wthl.model.Dish;
 import ru.savadevel.wthl.model.Menu;
 import ru.savadevel.wthl.model.Restaurant;
+import ru.savadevel.wthl.model.Role;
 import ru.savadevel.wthl.repository.DishRepository;
 import ru.savadevel.wthl.repository.MenuRepository;
 import ru.savadevel.wthl.repository.RestaurantRepository;
@@ -51,8 +52,8 @@ class AdminControllerTest extends AbstractControllerTest {
 
     @Test
     void getMenusAll() throws Exception {
-        checkGet(URI.create(REST_URL_RESTAURANTS + restaurant1.getId() + PART_REST_URL_MENUS),
-                admin, MENU_MATCHER, menu1, menu2, menu3);
+        checkGet(URI.create(REST_URL_RESTAURANTS + restaurant1.getId() + PART_REST_URL_MENUS), admin, MENU_MATCHER,
+                menu1, menu2, menu3);
     }
 
     @Test
@@ -85,17 +86,20 @@ class AdminControllerTest extends AbstractControllerTest {
 
     @Test
     void addDish() throws Exception {
-        checkPost(URI.create(REST_URL_DISHES), admin, DISH_MATCHER, DishTestData.getNew(), Dish.class, dishRepository);
+        checkPost(URI.create(REST_URL_DISHES), admin, DISH_MATCHER,
+                DishTestData.getNew(), Dish.class, (id) -> dishRepository.getById(id));
     }
 
     @Test
     void addRestaurant() throws Exception {
-        checkPost(URI.create(REST_URL_RESTAURANTS), admin, RESTAURANT_MATCHER, RestaurantTestData.getNew(), Restaurant.class, restaurantRepository);
+        checkPost(URI.create(REST_URL_RESTAURANTS), admin, RESTAURANT_MATCHER,
+                RestaurantTestData.getNew(), Restaurant.class, (id) -> restaurantRepository.getById(id));
     }
 
     @Test
     void addMenu() throws Exception {
-        checkPostTo(URI.create(REST_URL_MENUS), admin, MENU_TO_MATCHER, MenuTestData.getNew(), Menu.class, MenuUtil::asTo, menuRepository);
+        checkPostTo(URI.create(REST_URL_MENUS), admin, MENU_TO_MATCHER,
+                MenuTestData.getNew(restaurant1, dish1), Menu.class, MenuUtil::asTo, (id) -> menuRepository.getById(id));
     }
 
     @Test
@@ -106,7 +110,7 @@ class AdminControllerTest extends AbstractControllerTest {
 
     @Test
     void getDishesUnauthorized() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_DISHES).with(userHttpBasic(UserTestData.getNewWithAdminRole())))
+        perform(MockMvcRequestBuilders.get(REST_URL_DISHES).with(userHttpBasic(UserTestData.getNew(Role.ADMIN))))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -118,7 +122,7 @@ class AdminControllerTest extends AbstractControllerTest {
 
     @Test
     void getRestaurantsUnauthorized() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_RESTAURANTS).with(userHttpBasic(UserTestData.getNewWithAdminRole())))
+        perform(MockMvcRequestBuilders.get(REST_URL_RESTAURANTS).with(userHttpBasic(UserTestData.getNew(Role.ADMIN))))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -130,7 +134,7 @@ class AdminControllerTest extends AbstractControllerTest {
 
     @Test
     void getMenusUnauthorized() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_MENUS).with(userHttpBasic(UserTestData.getNewWithAdminRole())))
+        perform(MockMvcRequestBuilders.get(REST_URL_MENUS).with(userHttpBasic(UserTestData.getNew(Role.ADMIN))))
                 .andExpect(status().isUnauthorized());
     }
 }

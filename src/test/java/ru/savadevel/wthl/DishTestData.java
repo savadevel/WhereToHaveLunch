@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import static ru.savadevel.wthl.model.AbstractBaseEntity.START_SEQ;
 
 public class DishTestData {
-    public static TestMatcher<Dish> DISH_MATCHER = TestMatcher.usingIgnoringFieldsComparator(Dish.class);
+    public static TestMatcher<Dish> DISH_MATCHER = TestMatcher.usingIgnoringFieldsComparator(Dish.class, "menus");
 
     public static final int DISH1_ID = START_SEQ;
 
