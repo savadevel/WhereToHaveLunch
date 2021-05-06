@@ -22,4 +22,8 @@ public class SecurityUtil {
     public static UserDetails get() {
         return requireNonNull(safeGet(), "No authorized user found");
     }
+
+    public static String authUserId() {
+        return get().getUsername();
+    }
 }
