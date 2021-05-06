@@ -38,7 +38,7 @@ Diagram of entities / tables:
 
 ### Displays menus of restaurants on current date
 Sorting the menus: asc name of restaurant, after this asc name of dish
-The operation available for USER role
+The operation available for USER role, request's caching (cache name's 'restaurants')
 
 Code samples (shell)
 
@@ -77,7 +77,7 @@ Status: 200 OK
 
 ### Display amount votes on restaurants on current date
 Sorting the votes: desc by date and amount votes, after this asc name of restaurant
-The operation available for USER role
+The operation available for USER role, request's caching (cache name's 'votes')
 
 Code samples (shell)
 
@@ -150,7 +150,8 @@ Status: 200 OK
 
 ### Add only one vote for the restaurant on current date
 
-The operation available for USER role, if it is before 11:00 and the restaurant has a menu
+The operation available for USER role, if it is before 11:00 and the restaurant has a menu.
+Request will evict 'votes' cache
 
 Code samples (shell)
 
@@ -183,7 +184,8 @@ Location: /rest/restaurants/votes/{vote-id}
 
 ### Change vote for the restaurant on current date
 
-The operation available for USER role, if it is before 11:00 and the restaurant has a menu
+The operation available for USER role, if it is before 11:00 and the restaurant has a menu.
+Request will evict 'votes' cache
 
 Code samples (shell)
 
@@ -516,7 +518,7 @@ Status: 200 OK
 
 ### Add dish to the menu of the restaurant on current date
 
-The operation available for ADMIN role
+The operation available for ADMIN role, request will evict 'votes' and 'restaurants' caches
 
 Code samples (shell)
 
