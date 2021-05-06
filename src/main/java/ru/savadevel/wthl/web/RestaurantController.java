@@ -1,5 +1,7 @@
 package ru.savadevel.wthl.web;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,11 +38,13 @@ public class RestaurantController {
 
     // TODO now REST query like: resource/subresource, maybe must be like: resource/{resource-id}/subresource
     @GetMapping(PART_REST_URL_MENUS)
+    @Cacheable("restaurants")
     public List<Menu> getMenusOnCurrentDate() {
         return menuRepository.getAllByDate(getVotingDay().getNowDate());
     }
 
     @GetMapping(PART_REST_URL_VOTES)
+    @Cacheable("votes")
     public List<Votes> getAmountVotesForRestaurantsOnCurrentDate() {
         return voteRepository.getAmount(getVotingDay().getNowDate());
     }
@@ -50,12 +54,14 @@ public class RestaurantController {
         return checkNotFoundWithId(voteRepository.getVoteByIdAndUserUsername(voteId, SecurityUtil.get().getUsername()), voteId);
     }
 
+    @CacheEvict(value = "votes", allEntries = true)
     @PostMapping(value = PART_REST_URL_VOTES, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vote> createVote(@Valid @RequestBody VoteTo voteTo) {
         // TODO return ID restaurant without his name
         return add(VoteUtil.createNewFromTo(voteTo), REST_URL + PART_REST_URL_VOTES, this::saveOrUpdate);
     }
 
+    @CacheEvict(value = "votes", allEntries = true)
     @PatchMapping(value = PART_REST_URL_VOTES + "/{voteId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateVote(@Valid @RequestBody VoteTo voteTo, @PathVariable Integer voteId) {

@@ -10,6 +10,8 @@
        http://www.springframework.org/schema/mvc
        https://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+    <import resource="spring-cache.xml"/>
+
     <bean class="ru.savadevel.wthl.web.json.JacksonObjectMapper" id="objectMapper" factory-method="getMapper"/>
 
     <context:component-scan base-package="ru.savadevel.**.web"/>

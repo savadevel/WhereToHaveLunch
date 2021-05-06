@@ -1,5 +1,6 @@
 package ru.savadevel.wthl.web;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -82,6 +83,7 @@ public class AdminController {
         return add(restaurant, REST_URL + PART_REST_URL_RESTAURANTS, restaurantRepository::save);
     }
 
+    @CacheEvict(value = {"votes", "restaurants"}, allEntries = true)
     @PostMapping(value = PART_REST_URL_MENUS, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Menu> addMenu(@Valid @RequestBody MenuTo menuTo) {
         // TODO return ID restaurant without his name, same for dish
