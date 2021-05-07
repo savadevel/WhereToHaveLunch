@@ -2,6 +2,7 @@ package ru.savadevel.wthl.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -11,25 +12,29 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@ToString(callSuper = true)
-@NoArgsConstructor
+@ToString(callSuper = true, exclude = {"user", "restaurant"})
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"username", "on_date"}, name = "votes_unique_restaurant_user_on_date_idx")})
+@NamedEntityGraph(name = Vote.VOTE_RESTAURANT,
+        attributeNodes = @NamedAttributeNode("restaurant"))
+@Table(name = "votes",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"username", "on_date"}, name = "votes_unique_restaurant_user_on_date_idx")},
+        indexes = {@Index(columnList = "on_date", name = "votes_on_date_idx")})
+@DynamicUpdate
 public class Vote extends AbstractBaseEntity {
+    public static final String VOTE_RESTAURANT = "Vote.restaurant";
 
-    // TODO possible without ManyToOne, only JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
-    // TODO try use datetime
     @Column(name = "on_date", nullable = false)
     @NotNull
     private LocalDate date;

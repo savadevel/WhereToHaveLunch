@@ -1,7 +1,6 @@
 package ru.savadevel.wthl.web;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.savadevel.wthl.util.exception.ErrorInfo;
 import ru.savadevel.wthl.util.exception.ErrorType;
 import ru.savadevel.wthl.util.exception.NotFoundException;
-import ru.savadevel.wthl.util.validation.ValidationUtil;
+import ru.savadevel.wthl.web.validation.ValidationUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -23,11 +22,10 @@ import java.util.stream.Collectors;
 
 import static ru.savadevel.wthl.util.exception.ErrorType.*;
 
+@Slf4j
 @RestControllerAdvice(annotations = RestController.class)
 @Order(Ordered.HIGHEST_PRECEDENCE + 5)
 public class ExceptionInfoHandler {
-    private static final Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
-
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(NotFoundException.class)
     public ErrorInfo handleError(HttpServletRequest req, NotFoundException e) {

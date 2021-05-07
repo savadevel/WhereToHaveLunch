@@ -1,5 +1,6 @@
 package ru.savadevel.wthl.repository;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,6 +15,8 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
+import static ru.savadevel.wthl.model.Vote.VOTE_RESTAURANT;
+
 @Repository
 @Transactional(readOnly = true)
 public interface VoteRepository extends JpaRepository<Vote, Integer> {
@@ -23,6 +26,10 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
             "group by v.date, v.restaurant.id, v.restaurant.name " +
             "order by v.date desc, count(v.id) desc, v.restaurant.name")
     List<Votes> getAmount(@Param("date") LocalDate date);
+
+    @EntityGraph(VOTE_RESTAURANT)
     Vote getVoteByUserUsernameAndDate(@NotBlank @Size(min = 3, max = 32) String username, @NotNull LocalDate date);
+
+    @EntityGraph(VOTE_RESTAURANT)
     Vote getVoteByIdAndUserUsername(Integer id, @NotBlank @Size(min = 3, max = 32) String username);
 }

@@ -8,14 +8,15 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.Set;
+import java.util.List;
 
-@ToString(callSuper = true)
-@NoArgsConstructor
+@ToString(callSuper = true, exclude = "menus")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = "name", name = "dishes_unique_name_idx")})
 public class Dish extends AbstractNamedEntity {
 
+    @Getter
     @Setter
     @Column(name = "price", nullable = false, precision = 20, scale = 2)
     @NotNull
@@ -25,8 +26,8 @@ public class Dish extends AbstractNamedEntity {
 
     @Getter
     @OneToMany(mappedBy = "dish", fetch = FetchType.LAZY)
-    @JsonBackReference
-    private Set<Menu> menus;
+    @JsonBackReference("dish<menu")
+    private List<Menu> menus;
 
     public Dish(Integer id, String name, BigDecimal price) {
         super(id, name);

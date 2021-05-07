@@ -28,7 +28,6 @@ import static ru.savadevel.wthl.util.VoteUtil.asTo;
 import static ru.savadevel.wthl.web.WebUtil.PART_REST_URL_MENUS;
 import static ru.savadevel.wthl.web.WebUtil.PART_REST_URL_VOTES;
 
-// TODO fix warning: Resource [logback.xml] occurs multiple times on the classpath.
 class RestaurantControllerTest extends AbstractControllerTest {
     private static final String REST_URL_MENUS = RestaurantController.REST_URL + PART_REST_URL_MENUS + "/";
     private static final String REST_URL_VOTES = RestaurantController.REST_URL + PART_REST_URL_VOTES + "/";

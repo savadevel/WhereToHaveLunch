@@ -1,9 +1,6 @@
 package ru.savadevel.wthl.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -11,24 +8,29 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-// TODO check the generation of DDL (the fact that after changing the Entity, the correct DDL is formed, corresponds to the script)
-// TODO IDEA doesn't see all TODOs, like the bottom one when it's alone
-// TODO specify indices, constrains so that can be created from java
 @Getter
 @Setter
-@ToString(callSuper = true)
-@NoArgsConstructor
+@ToString(callSuper = true, exclude = {"restaurant", "dish"})
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "menus", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "dish_id", "on_date"}, name = "menus_unique_restaurant_dish_on_date_idx")})
+@NamedEntityGraph(name = Menu.MENU_RESTAURANT_AND_DISH,
+        attributeNodes = {@NamedAttributeNode("restaurant"), @NamedAttributeNode("dish")})
+@Table(name = "menus",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "dish_id", "on_date"}, name = "menus_unique_restaurant_dish_on_date_idx")},
+        indexes = {@Index(columnList = "on_date", name = "menus_on_date_idx")})
 public class Menu extends AbstractBaseEntity {
-    @ManyToOne
+    public static final String MENU_RESTAURANT_AND_DISH = "Menu.restaurantAndDish";
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
     private Restaurant restaurant;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dish_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
     private Dish dish;
 
     @Column(name = "on_date", nullable = false)

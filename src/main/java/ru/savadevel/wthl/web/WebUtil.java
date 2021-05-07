@@ -7,7 +7,7 @@ import ru.savadevel.wthl.model.AbstractBaseEntity;
 import java.net.URI;
 import java.util.function.Function;
 
-import static ru.savadevel.wthl.util.validation.ValidationUtil.checkNew;
+import static ru.savadevel.wthl.web.validation.ValidationUtil.checkNew;
 
 public class WebUtil {
     public static final String PART_REST_URL_DISHES = "/dishes";

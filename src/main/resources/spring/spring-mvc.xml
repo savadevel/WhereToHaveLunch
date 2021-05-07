@@ -24,7 +24,6 @@
                     <bean class="ru.savadevel.wthl.web.json.JacksonObjectMapper" />
                 </property>
             </bean>
-            <!-- TODO: why does not work without it, although examples work on the internet -->
             <bean class="org.springframework.http.converter.StringHttpMessageConverter">
                 <property name="supportedMediaTypes">
                     <list>

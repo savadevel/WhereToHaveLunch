@@ -1,7 +1,6 @@
 package ru.savadevel.wthl.web;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
@@ -22,10 +21,10 @@ import java.util.List;
 
 import static ru.savadevel.wthl.web.WebUtil.*;
 
+@Slf4j
 @RestController
 @RequestMapping(value = AdminController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminController {
-    private static final Logger log = LoggerFactory.getLogger(AdminController.class);
     public static final String REST_URL = "/rest/admin";
 
     private final DishRepository dishRepository;
@@ -41,7 +40,6 @@ public class AdminController {
     @GetMapping(PART_REST_URL_DISHES)
     public List<Dish> getDishesAll() {
         log.info("getDishesAll for user '{}'", SecurityUtil.authUserId());
-        // TODO called twice at startup
         return dishRepository.findAll();
     }
 
@@ -54,14 +52,12 @@ public class AdminController {
     @GetMapping(PART_REST_URL_RESTAURANTS + "/{restaurantId}" + PART_REST_URL_MENUS)
     public List<Menu> getMenusAll(@PathVariable Integer restaurantId) {
         log.info("getMenusAll for restaurantId {} and user '{}'", restaurantId, SecurityUtil.authUserId());
-        // TODO data is taken from the database after 4 requests
         return menuRepository.getAllByRestaurantId(restaurantId);
     }
 
     @GetMapping(value = PART_REST_URL_RESTAURANTS + "/{restaurantId}" + PART_REST_URL_MENUS, params = "date")
     public List<Menu> getMenuRestaurantByDate(@PathVariable Integer restaurantId, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         log.info("getMenuRestaurantByDate for restaurantId {}, date {} and user '{}'", restaurantId, date, SecurityUtil.authUserId());
-        // TODO data is taken from the database after 4 requests
         return menuRepository.getAllByRestaurantIdAndDate(restaurantId, date);
     }
 
@@ -99,7 +95,6 @@ public class AdminController {
     @PostMapping(value = PART_REST_URL_MENUS, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Menu> addMenu(@Valid @RequestBody MenuTo menuTo) {
         log.info("addMenu for MenuTo {} and user '{}'", menuTo, SecurityUtil.authUserId());
-        // TODO return ID restaurant without his name, same for dish
         return add(MenuUtil.createNewFromTo(menuTo), PART_REST_URL_MENUS, menuRepository::save);
     }
 }

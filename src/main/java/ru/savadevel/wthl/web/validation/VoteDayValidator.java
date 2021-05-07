@@ -1,4 +1,4 @@
-package ru.savadevel.wthl.util.validation;
+package ru.savadevel.wthl.web.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

@@ -3,7 +3,7 @@ package ru.savadevel.wthl.to;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.savadevel.wthl.util.validation.VoteDayConstraint;
+import ru.savadevel.wthl.web.validation.VoteDayConstraint;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;

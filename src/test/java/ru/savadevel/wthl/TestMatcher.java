@@ -23,12 +23,6 @@ public class TestMatcher<T> {
         return new TestMatcher<>(clazz, assertion, iterableAssertion);
     }
 
-    public static <T> TestMatcher<T> usingEqualsComparator(Class<T> clazz) {
-        return usingAssertions(clazz,
-                (a, e) -> assertThat(a).isEqualTo(e),
-                (a, e) -> assertThat(a).isEqualTo(e));
-    }
-
     public static <T> TestMatcher<T> usingIgnoringFieldsComparator(Class<T> clazz, String... fieldsToIgnore) {
         return usingAssertions(clazz,
                 (a, e) -> assertThat(a).usingRecursiveComparison().ignoringFields(fieldsToIgnore).isEqualTo(e),
@@ -39,17 +33,8 @@ public class TestMatcher<T> {
         assertion.accept(actual, expected);
     }
 
-    @SafeVarargs
-    public final void assertMatch(Iterable<T> actual, T... expected) {
-        assertMatch(actual, List.of(expected));
-    }
-
     public void assertMatch(Iterable<T> actual, Iterable<T> expected) {
         iterableAssertion.accept(actual, expected);
-    }
-
-    public ResultMatcher contentJson(T expected) {
-        return result -> assertMatch(TestUtil.readFromJsonMvcResult(result, clazz), expected);
     }
 
     @SafeVarargs

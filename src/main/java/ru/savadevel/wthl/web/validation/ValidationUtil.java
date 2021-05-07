@@ -1,8 +1,9 @@
-package ru.savadevel.wthl.util.validation;
+package ru.savadevel.wthl.web.validation;
 
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.lang.NonNull;
 import ru.savadevel.wthl.model.AbstractBaseEntity;
+import ru.savadevel.wthl.to.BaseTo;
 import ru.savadevel.wthl.util.exception.NotFoundException;
 
 public class ValidationUtil {
@@ -30,11 +31,11 @@ public class ValidationUtil {
         }
     }
 
-    public static void assureIdConsistent(AbstractBaseEntity entity, int id) {
-        if (entity.isNew()) {
-            entity.setId(id);
-        } else if (entity.id() != id) {
-            throw new IllegalArgumentException(entity + " must be with id=" + id);
+    public static void assureIdConsistent(BaseTo baseTo, int id) {
+        if (baseTo.isNew()) {
+            baseTo.setId(id);
+        } else if (baseTo.id() != id) {
+            throw new IllegalArgumentException(baseTo + " must be with id=" + id);
         }
     }
 

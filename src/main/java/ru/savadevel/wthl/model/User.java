@@ -1,34 +1,64 @@
 package ru.savadevel.wthl.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
-import org.hibernate.Hibernate;
+import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Objects;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@ToString(exclude = "votes")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "users")
-public class User  {
+public class User implements Persistable<String> {
+
+    @Getter
+    @Setter
     @Id
-    @Column(name = "username", nullable = false)
+    @GeneratedValue
+    @Column(name = "username", unique = true, nullable = false, columnDefinition="VARCHAR(32)")
     @NotBlank
     @Size(min = 3, max = 32)
     private String username;
 
-    @Column(name = "password", nullable = false)
+    @Getter
+    @Setter
+    @Column(name = "password", nullable = false, columnDefinition="VARCHAR(32)")
     @NotBlank
     @Size(min = 3, max = 32)
     private String password;
 
+    @Getter
+    @Setter
     @Enumerated(EnumType.STRING)
-    @Column(name = "role")
-    // TODO what other options are there not to have n + 1
+    @Column(name = "role", nullable = false, columnDefinition="VARCHAR(16)")
+    @Access(AccessType.FIELD)
     private Role role;
+
+    @Getter
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonBackReference("user<vote")
+    private List<Vote> votes;
+
+    public User(String username, String password, Role role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    @Override
+    public String getId() {
+        return username;
+    }
+
+    @Override
+    public boolean isNew() {
+        return username == null;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -50,3 +50,7 @@ CREATE TABLE votes
     FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE,
     CONSTRAINT votes_unique_restaurant_user_on_date_idx UNIQUE (username, on_date)
 );
+
+CREATE INDEX menus_on_date_idx ON menus (on_date);
+
+CREATE INDEX votes_on_date_idx ON menus (on_date);
