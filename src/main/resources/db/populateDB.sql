@@ -6,11 +6,11 @@ DELETE FROM votes;
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
 INSERT INTO users (username, password, role)
-VALUES ('user1', 'password', 'USER'),
-       ('user2', 'password', 'USER'),
-       ('user3', 'password', 'USER'),
-       ('user4', 'password', 'USER'),
-       ('admin', 'admin', 'ADMIN');
+VALUES ('user1', '{noop}password', 'USER'),
+       ('user2', '{noop}password', 'USER'),
+       ('user3', '{noop}password', 'USER'),
+       ('user4', '{noop}password', 'USER'),
+       ('admin', '{noop}admin', 'ADMIN');
 
 INSERT INTO dishes (name, price)
 VALUES ('first dish', 0.53),                        -- 100_000
