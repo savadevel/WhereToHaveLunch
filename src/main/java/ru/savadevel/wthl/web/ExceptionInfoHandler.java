@@ -1,5 +1,7 @@
 package ru.savadevel.wthl.web;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 import static ru.savadevel.wthl.util.exception.ErrorType.*;
 
 @Slf4j
+@NoArgsConstructor
 @RestControllerAdvice(annotations = RestController.class)
 @Order(Ordered.HIGHEST_PRECEDENCE + 5)
 public class ExceptionInfoHandler {

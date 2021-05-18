@@ -1,9 +1,12 @@
 package ru.savadevel.wthl;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import ru.savadevel.wthl.model.Restaurant;
 
 import static ru.savadevel.wthl.model.AbstractBaseEntity.START_SEQ;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RestaurantTestData {
     public static TestMatcher<Restaurant> RESTAURANT_MATCHER = TestMatcher.usingIgnoringFieldsComparator(Restaurant.class, "menus", "votes");
 

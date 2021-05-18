@@ -2,14 +2,16 @@ package ru.savadevel.wthl.web.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectReader;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.util.List;
 
 import static ru.savadevel.wthl.web.json.JacksonObjectMapper.getMapper;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JsonUtil {
-
     public static <T> List<T> readValues(String json, Class<T> clazz) {
         ObjectReader reader = getMapper().readerFor(clazz);
         try {

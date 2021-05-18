@@ -1,15 +1,17 @@
 package ru.savadevel.wthl.util.votingday;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProduceVotingDay implements VotingDay {
-    private static final VotingDay VOTING_DAY = new ProduceVotingDay();
-    private Clock clock = Clock.systemDefaultZone();
+    private static final VotingDay votingDay = new ProduceVotingDay();
 
-    private ProduceVotingDay() {
-    }
+    private Clock clock = Clock.systemDefaultZone();
 
     @Override
     public LocalDate getNowDate() {
@@ -27,6 +29,6 @@ public class ProduceVotingDay implements VotingDay {
     }
 
     public static VotingDay getVotingDay() {
-        return VOTING_DAY;
+        return votingDay;
     }
 }

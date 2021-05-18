@@ -1,5 +1,6 @@
 package ru.savadevel.wthl.web;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,6 +24,7 @@ import static ru.savadevel.wthl.web.WebUtil.*;
 
 @Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping(value = AdminController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminController {
     public static final String REST_URL = "/rest/admin";
@@ -30,12 +32,6 @@ public class AdminController {
     private final DishRepository dishRepository;
     private final RestaurantRepository restaurantRepository;
     private final MenuRepository menuRepository;
-
-    public AdminController(DishRepository dishRepository, RestaurantRepository restaurantRepository, MenuRepository menuRepository) {
-        this.dishRepository = dishRepository;
-        this.restaurantRepository = restaurantRepository;
-        this.menuRepository = menuRepository;
-    }
 
     @GetMapping(PART_REST_URL_DISHES)
     public List<Dish> getDishesAll() {

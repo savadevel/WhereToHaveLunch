@@ -1,5 +1,6 @@
 package ru.savadevel.wthl.web;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -24,6 +25,7 @@ import static ru.savadevel.wthl.web.validation.ValidationUtil.assureIdConsistent
 import static ru.savadevel.wthl.web.validation.ValidationUtil.checkNotFoundWithId;
 
 @Slf4j
+@AllArgsConstructor
 @RestController
 @RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantController {
@@ -31,11 +33,6 @@ public class RestaurantController {
 
     private final MenuRepository menuRepository;
     private final VoteRepository voteRepository;
-
-    public RestaurantController(MenuRepository menuRepository, VoteRepository voteRepository) {
-        this.menuRepository = menuRepository;
-        this.voteRepository = voteRepository;
-    }
 
     @GetMapping(PART_REST_URL_MENUS)
     @Cacheable("restaurants")

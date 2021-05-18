@@ -1,11 +1,14 @@
 package ru.savadevel.wthl;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import ru.savadevel.wthl.model.Dish;
 
 import java.math.BigDecimal;
 
 import static ru.savadevel.wthl.model.AbstractBaseEntity.START_SEQ;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DishTestData {
     public static TestMatcher<Dish> DISH_MATCHER = TestMatcher.usingIgnoringFieldsComparator(Dish.class, "menus");
 

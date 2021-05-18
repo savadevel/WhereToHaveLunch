@@ -1,5 +1,7 @@
 package ru.savadevel.wthl;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import ru.savadevel.wthl.model.Dish;
 import ru.savadevel.wthl.model.Menu;
 import ru.savadevel.wthl.model.Restaurant;
@@ -14,6 +16,7 @@ import static ru.savadevel.wthl.RestaurantTestData.restaurant1;
 import static ru.savadevel.wthl.RestaurantTestData.restaurant2;
 import static ru.savadevel.wthl.model.AbstractBaseEntity.START_SEQ;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MenuTestData {
     public static TestMatcher<Menu> MENU_MATCHER = TestMatcher.usingIgnoringFieldsComparator(Menu.class);
     public static TestMatcher<MenuTo> MENU_TO_MATCHER = TestMatcher.usingIgnoringFieldsComparator(MenuTo.class);

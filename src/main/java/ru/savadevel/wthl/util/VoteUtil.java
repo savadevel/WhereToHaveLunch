@@ -1,5 +1,7 @@
 package ru.savadevel.wthl.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import ru.savadevel.wthl.model.Restaurant;
 import ru.savadevel.wthl.model.Role;
 import ru.savadevel.wthl.model.User;
@@ -7,10 +9,8 @@ import ru.savadevel.wthl.model.Vote;
 import ru.savadevel.wthl.to.VoteTo;
 import ru.savadevel.wthl.web.SecurityUtil;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class VoteUtil {
-    private VoteUtil() {
-    }
-
     public static Vote createNewFromTo(VoteTo voteTo) {
         return new Vote(null, getUser(), getRestaurant(voteTo), voteTo.getDate());
     }

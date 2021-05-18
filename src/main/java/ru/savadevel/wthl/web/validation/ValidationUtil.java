@@ -1,15 +1,15 @@
 package ru.savadevel.wthl.web.validation;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.lang.NonNull;
 import ru.savadevel.wthl.model.AbstractBaseEntity;
 import ru.savadevel.wthl.to.BaseTo;
 import ru.savadevel.wthl.util.exception.NotFoundException;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ValidationUtil {
-    private ValidationUtil() {
-    }
-
     public static <T> T checkNotFoundWithId(T object, int id) {
         checkNotFoundWithId(object != null, id);
         return object;
