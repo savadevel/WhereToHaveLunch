@@ -164,7 +164,7 @@ curl \
   -X POST \
   --user username:password \
   http://localhost:8080/wthl/rest/menus \
-  -d '{"restaurantId":2,"dishId":4,"price":1.23}'
+  -d '{"restaurantId":2,"dishId":4,"price":1.23,"date":"2021-01-01"}'
 ```
 
 Response

@@ -104,6 +104,15 @@ public class AbstractControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
+    protected <T> ResultActions checkDuplicate(URI uri, User user, T content) throws Exception {
+        return perform(MockMvcRequestBuilders.post(uri)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(content))
+                .with(userHttpBasic(user)))
+                .andDo(print())
+                .andExpect(status().isConflict());
+    }
+
     protected <T extends AbstractBaseEntity> void checkPost(URI uri,
                                                             User user,
                                                             TestMatcher<T>matcher,

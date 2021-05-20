@@ -17,6 +17,7 @@ import ru.savadevel.wthl.repository.RestaurantRepository;
 import ru.savadevel.wthl.util.MenuUtil;
 
 import java.net.URI;
+import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.savadevel.wthl.DishTestData.*;
@@ -83,6 +84,28 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
     void addMenu() throws Exception {
         checkPostTo(URI.create(REST_URL_MENUS), admin, MENU_TO_MATCHER,
                 MenuTestData.getNew(restaurant1, dish1), Menu.class, MenuUtil::asTo, (id) -> menuRepository.getById(id));
+    }
+
+    @Test
+    void addDuplicateDish() throws Exception {
+        Dish duplicate = DishTestData.getNew();
+        duplicate.setName(dish1.getName());
+        checkDuplicate(URI.create(REST_URL_DISHES), admin, duplicate);
+    }
+
+    @Test
+    void addDuplicateRestaurant() throws Exception {
+        Restaurant duplicate = RestaurantTestData.getNew();
+        duplicate.setName(restaurant1.getName());
+        checkDuplicate(URI.create(REST_URL_RESTAURANTS), admin, duplicate);
+    }
+
+    @Test
+    void addDuplicateMenu() throws Exception {
+        Menu duplicate = MenuTestData.getNew(menu1.getRestaurant(), menu1.getDish());
+        duplicate.setDate(LocalDate.now());
+        menuRepository.save(duplicate);
+        checkDuplicate(URI.create(REST_URL_MENUS), admin, MenuUtil.asTo(duplicate));
     }
 
     @Test
