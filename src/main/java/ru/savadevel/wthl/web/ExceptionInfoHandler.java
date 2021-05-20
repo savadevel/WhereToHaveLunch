@@ -1,6 +1,5 @@
 package ru.savadevel.wthl.web;
 
-import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
@@ -9,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -66,8 +66,10 @@ public class ExceptionInfoHandler {
     private static List<String> getDetailMessages(Throwable throwable) {
         if (throwable instanceof BindException) {
             BindException bindException = (BindException) throwable;
-            return bindException.getFieldErrors().stream()
-                    .map(fe -> String.format("[%s] %s", fe.getField(), fe.getDefaultMessage()))
+            return bindException.getAllErrors().stream()
+                    .map(fe -> (fe instanceof FieldError)
+                            ? String.format("[%s] %s", ((FieldError)fe).getField(), fe.getDefaultMessage())
+                            : fe.getDefaultMessage())
                     .collect(Collectors.toList());
         }
         return List.of(throwable.getMessage());

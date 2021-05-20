@@ -7,11 +7,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.METHOD, ElementType.FIELD})
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy=VoteDayValidator.class)
 public @interface VoteDayConstraint {
-    String message() default "Vote is after 11:00, it's too late";
+    String message() default "Change vote for the restaurant on current date after 11:00, it's too late";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

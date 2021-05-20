@@ -58,14 +58,10 @@ class UserRestaurantControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void createWithInvalidTimeForVote() throws Exception {
+    void createVoteAfterPossibleUpdate() throws Exception {
         setDateTime(VOTE_TIME_INVALID);
-        perform(MockMvcRequestBuilders.post(URI.create(REST_URL_VOTES))
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(asTo(VoteTestData.getNew(restaurant1))))
-                .with(userHttpBasic(user1)))
-                .andExpect(status().isUnprocessableEntity())
-                .andDo(print());
+        checkPostTo(URI.create(REST_URL_VOTES), user4, VOTE_TO_MATCHER, VoteTestData.getNew(restaurant1),
+                Vote.class, VoteUtil::asTo, (id) -> repository.getVoteByIdAndUserUsername(id, user4.getUsername()));
     }
 
     @Test
@@ -76,8 +72,8 @@ class UserRestaurantControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(asTo(updated)))
                 .with(userHttpBasic(user1)))
-                .andExpect(status().isNoContent())
-                .andDo(print());
+                .andDo(print())
+                .andExpect(status().isNoContent());
 
         VOTE_MATCHER.assertMatch(repository.getVoteByIdAndUserUsername(updated.id(), user1.getUsername()), updated);
     }
@@ -91,14 +87,8 @@ class UserRestaurantControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(asTo(updated)))
                 .with(userHttpBasic(user1)))
-                .andExpect(status().isUnprocessableEntity())
-                .andDo(print());
-    }
-
-    @Test
-    void getVotesForbidden() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_VOTES).with(userHttpBasic(admin)))
-                .andExpect(status().isForbidden());
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
@@ -127,8 +117,8 @@ class UserRestaurantControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(asTo(updated)))
                 .with(userHttpBasic(user4)))
-                .andExpect(status().isUnprocessableEntity())
-                .andDo(print());
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
@@ -138,15 +128,14 @@ class UserRestaurantControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(asTo(newVote)))
                 .with(userHttpBasic(user1)))
-                .andExpect(status().isConflict())
-                .andDo(print());
+                .andDo(print())
+                .andExpect(status().isConflict());
     }
 
     @Test
     void getNotFound() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL_VOTES + vote1.getId()).with(userHttpBasic(user2)))
-                .andExpect(status().isUnprocessableEntity())
-                .andDo(print());
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
     }
-
 }

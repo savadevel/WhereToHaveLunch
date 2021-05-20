@@ -12,11 +12,12 @@ import static ru.savadevel.wthl.util.votingday.ProduceVotingDay.getVotingDay;
 
 @Getter
 @NoArgsConstructor
+@VoteDayConstraint
 public class VoteTo extends BaseTo {
     @Setter
     @NotNull
     private Integer restaurantId;
-    @VoteDayConstraint
+
     private final LocalDate date = getVotingDay().getNowDate();
 
     public VoteTo(Integer id, Integer restaurantId) {

@@ -88,8 +88,8 @@ public class AbstractControllerTest {
     @SafeVarargs
     protected final <T> void checkGet(URI uri, User user, TestMatcher<T> matcher, T... expected) throws Exception {
         perform(MockMvcRequestBuilders.get(uri).with(userHttpBasic(user)))
-                .andExpect(status().isOk())
                 .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(matcher.contentJson(expected));
     }
@@ -99,8 +99,8 @@ public class AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(content))
                 .with(userHttpBasic(user)))
-                .andExpect(status().isCreated())
                 .andDo(print())
+                .andExpect(status().isCreated())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
@@ -136,8 +136,8 @@ public class AbstractControllerTest {
     protected final void checkDelete(URI uri, User user, Executable deleteById) throws Exception {
         perform(MockMvcRequestBuilders.delete(uri)
                 .with(userHttpBasic(user)))
-                .andExpect(status().isNoContent())
-                .andDo(print());
+                .andDo(print())
+                .andExpect(status().isNoContent());
         assertThrows(NotFoundException.class, deleteById);
     }
 }
