@@ -24,7 +24,7 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
             "from Vote v " +
             "where v.date=:date " +
             "group by v.date, v.restaurant.id, v.restaurant.name " +
-            "order by v.date desc, count(v.id) desc, v.restaurant.name")
+            "order by count(v.id) desc, v.restaurant.name")
     List<Votes> getAmount(@Param("date") LocalDate date);
 
     @EntityGraph(VOTE_RESTAURANT)
