@@ -3,7 +3,6 @@ package ru.savadevel.wthl.web;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.util.UriComponentsBuilder;
 import ru.savadevel.wthl.DishTestData;
 import ru.savadevel.wthl.MenuTestData;
 import ru.savadevel.wthl.RestaurantTestData;
@@ -28,10 +27,10 @@ import static ru.savadevel.wthl.UserTestData.admin;
 import static ru.savadevel.wthl.UserTestData.user1;
 import static ru.savadevel.wthl.web.WebUtil.*;
 
-class AdminControllerTest extends AbstractControllerTest {
-    private static final String REST_URL_DISHES = AdminController.REST_URL + PART_REST_URL_DISHES + "/";
-    private static final String REST_URL_RESTAURANTS = AdminController.REST_URL + PART_REST_URL_RESTAURANTS + "/";
-    private static final String REST_URL_MENUS = AdminController.REST_URL + PART_REST_URL_MENUS + "/";
+class AdminRestaurantControllerTest extends AbstractControllerTest {
+    private static final String REST_URL_DISHES = AdminRestaurantController.REST_URL + PART_REST_URL_DISHES + "/";
+    private static final String REST_URL_RESTAURANTS = AdminRestaurantController.REST_URL + PART_REST_URL_RESTAURANTS + "/";
+    private static final String REST_URL_MENUS = AdminRestaurantController.REST_URL + PART_REST_URL_MENUS + "/";
 
     @Autowired
     private DishRepository dishRepository;
@@ -51,22 +50,6 @@ class AdminControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getMenusAll() throws Exception {
-        checkGet(URI.create(REST_URL_RESTAURANTS + restaurant1.getId() + PART_REST_URL_MENUS), admin, MENU_MATCHER,
-                menu1, menu2, menu3);
-    }
-
-    @Test
-    void getMenuRestaurantByDate() throws Exception {
-        URI uri = UriComponentsBuilder
-                .fromUriString(REST_URL_RESTAURANTS + restaurant1.getId() + PART_REST_URL_MENUS + "/?date={date}")
-                .buildAndExpand(menu1.getDate())
-                .encode()
-                .toUri();
-        checkGet(uri, admin, MENU_MATCHER, menu1, menu2);
-    }
-
-    @Test
     void getDishById() throws Exception {
         checkGet(URI.create(REST_URL_DISHES + dish1.getId()),
                 admin, DISH_MATCHER, dish1);
@@ -79,7 +62,7 @@ class AdminControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getMenuByIs() throws Exception {
+    void getMenuById() throws Exception {
         checkGet(URI.create(REST_URL_MENUS + menu1.getId()),
                 admin, MENU_MATCHER, menu1);
     }
@@ -103,8 +86,38 @@ class AdminControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void deleteDish() throws Exception {
+        checkDelete(URI.create(REST_URL_DISHES + dish1.getId()),
+                admin, () -> WebUtil.delete(dish1.id(), dishRepository::delete));
+    }
+
+    @Test
+    void deleteRestaurant() throws Exception {
+        checkDelete(URI.create(REST_URL_RESTAURANTS + restaurant1.getId()),
+                admin, () -> WebUtil.delete(restaurant1.id(), restaurantRepository::delete));
+    }
+
+    @Test
+    void deleteMenu() throws Exception {
+        checkDelete(URI.create(REST_URL_MENUS + menu1.getId()),
+                admin, () -> WebUtil.delete(menu1.id(), menuRepository::delete));
+    }
+
+    @Test
     void getDishesForbidden() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL_DISHES).with(userHttpBasic(user1)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void addDishForbidden() throws Exception {
+        perform(MockMvcRequestBuilders.post(REST_URL_DISHES).with(userHttpBasic(user1)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void deleteDishesForbidden() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL_MENUS + menu1.getId()).with(userHttpBasic(user1)))
                 .andExpect(status().isForbidden());
     }
 
@@ -121,20 +134,32 @@ class AdminControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void addRestaurantForbidden() throws Exception {
+        perform(MockMvcRequestBuilders.post(REST_URL_RESTAURANTS).with(userHttpBasic(user1)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void deleteRestaurantForbidden() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL_RESTAURANTS + restaurant1.getId()).with(userHttpBasic(user1)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     void getRestaurantsUnauthorized() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL_RESTAURANTS).with(userHttpBasic(UserTestData.getNew(Role.ADMIN))))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
-    void getMenusForbidden() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_MENUS).with(userHttpBasic(user1)))
+    void addMenuForbidden() throws Exception {
+        perform(MockMvcRequestBuilders.post(REST_URL_MENUS).with(userHttpBasic(user1)))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    void getMenusUnauthorized() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_MENUS).with(userHttpBasic(UserTestData.getNew(Role.ADMIN))))
-                .andExpect(status().isUnauthorized());
+    void deleteMenuForbidden() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL_MENUS + menu1.getId()).with(userHttpBasic(user1)))
+                .andExpect(status().isForbidden());
     }
 }

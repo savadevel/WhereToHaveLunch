@@ -1,6 +1,7 @@
 package ru.savadevel.wthl.web;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
@@ -16,6 +17,7 @@ import ru.savadevel.wthl.TestMatcher;
 import ru.savadevel.wthl.model.AbstractBaseEntity;
 import ru.savadevel.wthl.model.User;
 import ru.savadevel.wthl.to.BaseTo;
+import ru.savadevel.wthl.util.exception.NotFoundException;
 import ru.savadevel.wthl.web.json.JsonUtil;
 
 import javax.annotation.PostConstruct;
@@ -29,6 +31,7 @@ import java.util.function.IntFunction;
 
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.hasItem;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.http.HttpHeaders.LOCATION;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
@@ -128,5 +131,13 @@ public class AbstractControllerTest {
         newTo.setId(created.id());
         matcher.assertMatch(asTo.apply(created), newTo);
         matcher.assertMatch(asTo.apply(getById.apply(created.id())), newTo);
+    }
+
+    protected final void checkDelete(URI uri, User user, Executable deleteById) throws Exception {
+        perform(MockMvcRequestBuilders.delete(uri)
+                .with(userHttpBasic(user)))
+                .andExpect(status().isNoContent())
+                .andDo(print());
+        assertThrows(NotFoundException.class, deleteById);
     }
 }

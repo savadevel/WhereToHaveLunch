@@ -3,7 +3,7 @@ package ru.savadevel.wthl.web;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,6 @@ import ru.savadevel.wthl.to.MenuTo;
 import ru.savadevel.wthl.util.MenuUtil;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
 import java.util.List;
 
 import static ru.savadevel.wthl.web.WebUtil.*;
@@ -25,9 +24,9 @@ import static ru.savadevel.wthl.web.WebUtil.*;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = AdminController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class AdminController {
-    public static final String REST_URL = "/rest/admin";
+@RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+public class AdminRestaurantController {
+    public static final String REST_URL = "/rest";
 
     private final DishRepository dishRepository;
     private final RestaurantRepository restaurantRepository;
@@ -45,18 +44,6 @@ public class AdminController {
         return restaurantRepository.findAll();
     }
 
-    @GetMapping(PART_REST_URL_RESTAURANTS + "/{restaurantId}" + PART_REST_URL_MENUS)
-    public List<Menu> getMenusAll(@PathVariable Integer restaurantId) {
-        log.info("getMenusAll for restaurantId {} and user '{}'", restaurantId, SecurityUtil.authUserId());
-        return menuRepository.getAllByRestaurantId(restaurantId);
-    }
-
-    @GetMapping(value = PART_REST_URL_RESTAURANTS + "/{restaurantId}" + PART_REST_URL_MENUS, params = "date")
-    public List<Menu> getMenuRestaurantByDate(@PathVariable Integer restaurantId, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        log.info("getMenuRestaurantByDate for restaurantId {}, date {} and user '{}'", restaurantId, date, SecurityUtil.authUserId());
-        return menuRepository.getAllByRestaurantIdAndDate(restaurantId, date);
-    }
-
     @GetMapping(PART_REST_URL_DISHES + "/{dishId}")
     public Dish getDishById(@PathVariable Integer dishId) {
         log.info("getDishById for dishId {} and user '{}'", dishId, SecurityUtil.authUserId());
@@ -67,12 +54,6 @@ public class AdminController {
     public Restaurant getRestaurantById(@PathVariable Integer restaurantId) {
         log.info("getRestaurantById for restaurantId {} and user '{}'", restaurantId, SecurityUtil.authUserId());
         return restaurantRepository.getById(restaurantId);
-    }
-
-    @GetMapping(PART_REST_URL_MENUS + "/{menuId}")
-    public Menu getMenuByIs(@PathVariable Integer menuId) {
-        log.info("getMenuByIs for menuId {} and user '{}'", menuId, SecurityUtil.authUserId());
-        return menuRepository.getById(menuId);
     }
 
     @PostMapping(value = PART_REST_URL_DISHES, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -92,5 +73,26 @@ public class AdminController {
     public ResponseEntity<Menu> addMenu(@Valid @RequestBody MenuTo menuTo) {
         log.info("addMenu for MenuTo {} and user '{}'", menuTo, SecurityUtil.authUserId());
         return add(MenuUtil.createNewFromTo(menuTo), PART_REST_URL_MENUS, menuRepository::save);
+    }
+
+    @DeleteMapping( PART_REST_URL_DISHES + "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void  deleteDish(@PathVariable int id) {
+        log.info("deleteDish for id {} and user '{}'", id, SecurityUtil.authUserId());
+        delete(id, dishRepository::delete);
+    }
+
+    @DeleteMapping( PART_REST_URL_RESTAURANTS + "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void  deleteRestaurant(@PathVariable int id) {
+        log.info("deleteRestaurant for id {} and user '{}'", id, SecurityUtil.authUserId());
+        delete(id, restaurantRepository::delete);
+    }
+
+    @DeleteMapping( PART_REST_URL_MENUS + "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void  deleteMenu(@PathVariable int id) {
+        log.info("deleteMenu for id {} and user '{}'", id, SecurityUtil.authUserId());
+        delete(id, menuRepository::delete);
     }
 }
