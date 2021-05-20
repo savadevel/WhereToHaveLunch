@@ -22,14 +22,14 @@ public class User implements Persistable<String> {
     @GeneratedValue
     @Column(name = "username", unique = true, nullable = false, columnDefinition="VARCHAR(32)")
     @NotBlank
-    @Size(min = 3, max = 32)
+    @Size(min = 3, max = 128)
     private String username;
 
     @Getter
     @Setter
     @Column(name = "password", nullable = false, columnDefinition="VARCHAR(32)")
     @NotBlank
-    @Size(min = 3, max = 32)
+    @Size(min = 3, max = 255)
     private String password;
 
     @Getter

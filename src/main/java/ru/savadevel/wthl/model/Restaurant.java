@@ -9,18 +9,17 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.List;
 
+@Getter
 @ToString(callSuper = true, exclude = {"menus", "votes"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = "name", name = "restaurants_unique_name_idx")})
 public class Restaurant extends AbstractNamedEntity {
 
-    @Getter
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     @JsonBackReference("restaurant<menu")
     private List<Menu> menus;
 
-    @Getter
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     @JsonBackReference("restaurant<vote")
     private List<Vote> votes;

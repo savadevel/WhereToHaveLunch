@@ -5,7 +5,10 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -37,10 +40,17 @@ public class Menu extends AbstractBaseEntity {
     @NotNull
     private LocalDate date;
 
-    public Menu(Integer id, Restaurant restaurant, Dish dish, LocalDate date) {
+    @Column(name = "price", nullable = false, precision = 20, scale = 2)
+    @NotNull
+    @DecimalMin("0.01")
+    @DecimalMax("10000.00")
+    private BigDecimal price;
+
+    public Menu(Integer id, Restaurant restaurant, Dish dish, LocalDate date, BigDecimal price) {
         super(id);
         this.restaurant = restaurant;
         this.dish = dish;
         this.date = date;
+        this.price = price;
     }
 }

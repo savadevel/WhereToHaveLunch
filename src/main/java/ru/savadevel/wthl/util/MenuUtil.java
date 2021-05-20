@@ -12,10 +12,10 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MenuUtil {
     public static Menu createNewFromTo(MenuTo menuTo) {
-        return new Menu(null, new Restaurant(menuTo.getRestaurantId(), null), new Dish(menuTo.getDishId(), null, null), LocalDate.now());
+        return new Menu(null, new Restaurant(menuTo.getRestaurantId(), null), new Dish(menuTo.getDishId(), null), LocalDate.now(), menuTo.getPrice());
     }
 
     public static MenuTo asTo(Menu menu) {
-        return new MenuTo(menu.getId(), menu.getRestaurant().id(), menu.getDish().id());
+        return new MenuTo(menu.getId(), menu.getRestaurant().id(), menu.getDish().id(), menu.getPrice());
     }
 }

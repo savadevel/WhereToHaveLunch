@@ -28,8 +28,8 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
     List<Votes> getAmount(@Param("date") LocalDate date);
 
     @EntityGraph(VOTE_RESTAURANT)
-    Vote getVoteByUserUsernameAndDate(@NotBlank @Size(min = 3, max = 32) String username, @NotNull LocalDate date);
+    Vote getVoteByUserUsernameAndDate(@NotBlank @Size(min = 3, max = 128) String username, @NotNull LocalDate date);
 
     @EntityGraph(VOTE_RESTAURANT)
-    Vote getVoteByIdAndUserUsername(Integer id, @NotBlank @Size(min = 3, max = 32) String username);
+    Vote getVoteByIdAndUserUsername(Integer id, @NotBlank @Size(min = 3, max = 128) String username);
 }
