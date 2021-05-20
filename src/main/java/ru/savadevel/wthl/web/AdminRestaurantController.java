@@ -56,6 +56,12 @@ public class AdminRestaurantController {
         return restaurantRepository.getById(restaurantId);
     }
 
+    @GetMapping(PART_REST_URL_MENUS + "/{menuId}")
+    public Menu getMenuById(@PathVariable Integer menuId) {
+        log.info("getMenuByIs for menuId {} and user '{}'", menuId, SecurityUtil.authUserId());
+        return menuRepository.getById(menuId);
+    }
+
     @PostMapping(value = PART_REST_URL_DISHES, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Dish>  addDish(@Valid @RequestBody Dish dish) {
         log.info("addDish for Dish {} and user '{}'", dish, SecurityUtil.authUserId());

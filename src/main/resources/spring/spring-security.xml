@@ -10,7 +10,7 @@
     <http pattern="/rest/**" use-expressions="true" name="restSecurityFilterChain" create-session="stateless">
         <http-basic/>
         <intercept-url pattern="/rest/vote-results/**" access="hasRole('USER')"/>
-        <intercept-url pattern="/rest/menus/**" access="hasAnyRole('USER', 'ADMIN')" method="GET"/>
+        <intercept-url pattern="/rest/menus" access="hasAnyRole('USER', 'ADMIN')" method="GET"/>
         <intercept-url pattern="/rest/menus/**" access="hasRole('ADMIN')"/>
         <intercept-url pattern="/rest/votes/**" access="hasRole('USER')"/>
         <intercept-url pattern="/rest/restaurants/**" access="hasRole('ADMIN')"/>

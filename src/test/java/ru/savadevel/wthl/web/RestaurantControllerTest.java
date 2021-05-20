@@ -15,7 +15,7 @@ import static ru.savadevel.wthl.UserTestData.user1;
 import static ru.savadevel.wthl.web.WebUtil.PART_REST_URL_MENUS;
 
 class RestaurantControllerTest extends AbstractControllerTest {
-    private static final String REST_URL_MENUS = RestaurantController.REST_URL + PART_REST_URL_MENUS + "/";
+    private static final String REST_URL_MENUS = RestaurantController.REST_URL + PART_REST_URL_MENUS;
 
     @Test
     void getMenusByUserRole() throws Exception {
