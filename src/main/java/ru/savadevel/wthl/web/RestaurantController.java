@@ -25,8 +25,8 @@ public class RestaurantController {
 
     private final MenuRepository menuRepository;
 
+    @Cacheable(value = "menus")
     @GetMapping(PART_REST_URL_MENUS)
-    @Cacheable("restaurants")
     public List<Menu> getMenus() {
         log.info("getMenusOnCurrentDate for user '{}'", SecurityUtil.authUserId());
         return menuRepository.getAllByDateOrderByRestaurantNameAscDishNameAsc(getVotingDay().getNowDate());

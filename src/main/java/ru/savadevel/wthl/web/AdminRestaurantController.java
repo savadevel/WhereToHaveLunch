@@ -68,13 +68,14 @@ public class AdminRestaurantController {
         return add(restaurant, REST_URL + PART_REST_URL_RESTAURANTS, restaurantRepository::save);
     }
 
-    @CacheEvict(value = {"votes", "restaurants"}, allEntries = true)
+    @CacheEvict(value = "menus", allEntries = true)
     @PostMapping(value = PART_REST_URL_MENUS, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Menu> addMenu(@Valid @RequestBody MenuTo menuTo) {
         log.info("addMenu for MenuTo {} and user '{}'", menuTo, SecurityUtil.authUserId());
         return add(MenuUtil.createNewFromTo(menuTo), PART_REST_URL_MENUS, menuRepository::save);
     }
 
+    @CacheEvict(value = "menus", allEntries = true)
     @DeleteMapping( PART_REST_URL_DISHES + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void  deleteDish(@PathVariable int id) {

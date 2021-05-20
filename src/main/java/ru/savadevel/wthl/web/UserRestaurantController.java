@@ -31,7 +31,6 @@ public class UserRestaurantController {
 
     private final VoteRepository voteRepository;
 
-    @Cacheable("votes")
     @GetMapping(PART_REST_URL_VOTE_RESULTS)
     public List<Votes> getAmountVotesForRestaurantsOnCurrentDate() {
         log.info("getAmountVotesForRestaurantsOnCurrentDate for user '{}'", SecurityUtil.authUserId());
@@ -49,14 +48,12 @@ public class UserRestaurantController {
         return getVoteOfOwnerById(voteId);
     }
 
-    @CacheEvict(value = "votes", allEntries = true)
     @PostMapping(value = PART_REST_URL_VOTES, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vote> createVote(@Valid @RequestBody VoteTo voteTo) {
         log.info("createVote for VoteTo {} and user '{}'", voteTo, SecurityUtil.authUserId());
         return add(VoteUtil.createNewFromTo(voteTo), REST_URL + PART_REST_URL_VOTE_RESULTS, voteRepository::save);
     }
 
-    @CacheEvict(value = "votes", allEntries = true)
     @PatchMapping(value = PART_REST_URL_VOTES + "/{voteId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateVote(@Valid @RequestBody VoteTo voteTo, @PathVariable Integer voteId) {
