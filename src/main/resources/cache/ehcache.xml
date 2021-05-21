@@ -2,6 +2,13 @@
         xmlns='http://www.ehcache.org/v3'
         xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd">
 
+    <cache-template name="expiryCache">
+        <expiry>
+            <ttl unit="seconds">10</ttl>
+        </expiry>
+        <heap unit="entries">1</heap>
+    </cache-template>
+
     <cache-template name="singleNonExpiryCache">
         <expiry>
             <none/>
@@ -10,4 +17,5 @@
     </cache-template>
 
     <cache alias="menus" uses-template="singleNonExpiryCache"/>
+    <cache alias="votes" uses-template="expiryCache"/>
 </config>

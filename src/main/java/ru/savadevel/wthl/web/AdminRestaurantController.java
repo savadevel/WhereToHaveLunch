@@ -75,14 +75,14 @@ public class AdminRestaurantController {
         return add(restaurant, REST_URL + PART_REST_URL_RESTAURANTS, restaurantRepository::save);
     }
 
-    @CacheEvict(value = "menus", allEntries = true)
+    @CacheEvict(value = {"menus", "votes"}, allEntries = true)
     @PostMapping(value = PART_REST_URL_MENUS, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Menu> addMenu(@Valid @RequestBody MenuTo menuTo) {
         log.info("addMenu for MenuTo {} and user '{}'", menuTo, SecurityUtil.authUserId());
         return add(MenuUtil.createNewFromTo(menuTo), PART_REST_URL_MENUS, menuRepository::save);
     }
 
-    @CacheEvict(value = "menus", allEntries = true)
+    @CacheEvict(value = {"menus", "votes"}, allEntries = true)
     @DeleteMapping( PART_REST_URL_DISHES + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void  deleteDish(@PathVariable int id) {
@@ -90,6 +90,7 @@ public class AdminRestaurantController {
         delete(id, dishRepository::delete);
     }
 
+    @CacheEvict(value = {"menus", "votes"}, allEntries = true)
     @DeleteMapping( PART_REST_URL_RESTAURANTS + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void  deleteRestaurant(@PathVariable int id) {
@@ -97,6 +98,7 @@ public class AdminRestaurantController {
         delete(id, restaurantRepository::delete);
     }
 
+    @CacheEvict(value = {"menus", "votes"}, allEntries = true)
     @DeleteMapping( PART_REST_URL_MENUS + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void  deleteMenu(@PathVariable int id) {
