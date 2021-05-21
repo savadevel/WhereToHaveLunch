@@ -15,6 +15,12 @@ Diagram of entities / tables:
 
 ![diagram.png](diagram.png)
 
+## Swagger REST Api Documentation
+Documentation available by URL (after setup WTHL):
+```http request
+/swagger-ui.html
+```
+
 ## Using cURL for manage system for deciding where to have lunch by REST queries
 
 | URL                                                                        | Method | Role  | Description                                                          |
