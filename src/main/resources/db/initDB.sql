@@ -1,4 +1,5 @@
 DROP TABLE votes IF EXISTS;
+DROP TABLE user_roles IF EXISTS;
 DROP TABLE users IF EXISTS;
 DROP TABLE menus IF EXISTS;
 DROP TABLE dishes IF EXISTS;
@@ -10,8 +11,15 @@ CREATE SEQUENCE GLOBAL_SEQ AS INTEGER START WITH 100000;
 CREATE TABLE users
 (
     username VARCHAR(128) PRIMARY KEY,
-    password VARCHAR(255) NOT NULL,
-    role     VARCHAR(16)
+    password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE user_roles
+(
+    username VARCHAR(128) NOT NULL,
+    role    VARCHAR(255),
+    CONSTRAINT user_roles_unique_username_role_idx UNIQUE (username, role),
+    FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE
 );
 
 CREATE TABLE dishes

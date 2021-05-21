@@ -2,52 +2,64 @@ package ru.savadevel.wthl.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.domain.Persistable;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
+@Getter
 @ToString(exclude = "votes")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "users")
 public class User implements Persistable<String> {
 
-    @Getter
     @Setter
     @Id
     @GeneratedValue
-    @Column(name = "username", unique = true, nullable = false, columnDefinition="VARCHAR(32)")
+    @Column(name = "username", unique = true, nullable = false, columnDefinition="VARCHAR(128)")
     @NotBlank
     @Size(min = 3, max = 128)
     private String username;
 
-    @Getter
     @Setter
-    @Column(name = "password", nullable = false, columnDefinition="VARCHAR(32)")
+    @Column(name = "password", nullable = false, columnDefinition="VARCHAR(255)")
     @NotBlank
     @Size(min = 3, max = 255)
     private String password;
 
-    @Getter
-    @Setter
     @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "username"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"username", "role"}, name = "user_roles_unique_username_role_idx")})
     @Column(name = "role", nullable = false, columnDefinition="VARCHAR(16)")
-    @Access(AccessType.FIELD)
-    private Role role;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @BatchSize(size = 200)
+    @JoinColumn(name = "username") //https://stackoverflow.com/a/62848296/548473
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Set<Role> roles;
 
-    @Getter
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonBackReference("user<vote")
     private List<Vote> votes;
 
-    public User(String username, String password, Role role) {
+    public User(String username, String password, Role role, Role... roles) {
+        this(username, password, EnumSet.of(role, roles));
+    }
+
+    public User(String username, String password, Collection<Role> roles) {
         this.username = username;
         this.password = password;
-        this.role = role;
+        setRoles(roles);
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
     }
 
     @Override

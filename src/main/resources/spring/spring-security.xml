@@ -25,7 +25,7 @@
             <password-encoder ref="passwordEncoder"/>
             <jdbc-user-service data-source-ref="dataSource"
                                users-by-username-query="SELECT username, password, true as enabled FROM users WHERE username = ?"
-                               authorities-by-username-query="SELECT username, 'ROLE_' + role as authority FROM users u WHERE username = ?"/>
+                               authorities-by-username-query="SELECT u.username, 'ROLE_' + r.role as authority FROM users u INNER JOIN user_roles r on u.username = r.username WHERE u.username = ?"/>
         </authentication-provider>
     </authentication-manager>
 </beans:beans>

@@ -13,7 +13,7 @@ public abstract class AbstractNamedEntity extends AbstractBaseEntity {
 
     @NotBlank
     @Size(min = 2, max = 255)
-    @Column(name = "name", nullable = false, columnDefinition="VARCHAR(32)")
+    @Column(name = "name", nullable = false, columnDefinition="VARCHAR(255)")
     protected String name;
 
     protected AbstractNamedEntity() {
