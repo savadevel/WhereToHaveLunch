@@ -62,7 +62,7 @@ Response
 Status: 200 OK
 ```
 
-```
+```json
 [
     {
         "date":"2021-01-01",
@@ -71,16 +71,16 @@ Status: 200 OK
                 "id": 1,
                 "name": "Good restaurant"
             },
-        "votes:4
+        "votes":4
     },
     {
         "date":"2021-01-01",
         "restaurant":
             {
-                "id": 2,
-                "name": "Best restaurant"
+                "id":2,
+                "name":"Best restaurant"
             },
-        "votes:3
+        "votes":3
     }
 ]
 ```
@@ -104,19 +104,19 @@ Response
 Status: 200 OK
 ```
 
-```
+```json
 [
     {
         "id":1,
         "date":"2021-01-01",
         "restaurant":
             {
-                "id": 2,
-                "name": "Good restaurant"
+                "id":2,
+                "name":"Good restaurant"
             },
         "dish":
             {
-                "id:3,
+                "id":3,
                 "name":"First dish", 
                 "price":1.23 
             }
@@ -142,7 +142,7 @@ Response
 Status: 200 OK
 ```
 
-```
+```json
 {
     "id":1,
     "date":"2021-01-01",
@@ -180,9 +180,9 @@ Status: 201 Created
 Location: /rest/menus/{menu-id}
 ```
 
-```
+```json
 {
-    "id": 1,
+    "id":1,
     "date":"2021-01-01",
     "price":1.23,
     "restaurant":
@@ -191,7 +191,7 @@ Location: /rest/menus/{menu-id}
     },
     "dish":
     {
-        "id:4 
+        "id":4 
     }
 }
 ```
@@ -232,13 +232,13 @@ Response
 Status: 200 OK
 ```
 
-```
+```json
 {
     "id":1,
     "restaurant":
         {
-            "id": 2,
-            "name": "Good restaurant"
+            "id":2,
+            "name":"Good restaurant"
         },
     "date":"2021-01-01"
 } 
@@ -262,13 +262,13 @@ Response
 Status: 200 OK
 ```
 
-```
+```json
 {
     "id":1,
     "restaurant":
         {
-            "id": 2,
-            "name": "Good restaurant"
+            "id":2,
+            "name":"Good restaurant"
         },
     "date":"2021-01-01"
 } 
@@ -294,13 +294,13 @@ Status: 201 Created
 Location: /rest/votes/{vote-id}
 ```
 
-```
+```json
 {
     "id":4,
     "restaurant":
         {
-            "id": 2,
-            "name": "Good restaurant"
+            "id":2,
+            "name":"Good restaurant"
         },
     "date":"2021-01-01"
 } 
@@ -343,11 +343,11 @@ Response
 Status: 200 OK
 ```
 
-```
+```json
 [
     {
-        "id": 1,
-        "restaurant": "Good restaurant",
+        "id":1,
+        "restaurant":"Good restaurant"
     }
 ]
 ```
@@ -370,10 +370,10 @@ Response
 Status: 200 OK
 ```
 
-```
+```json
 {
-    "id": 1,
-    "restaurant": "Good restaurant",
+    "id":1,
+    "restaurant":"Good restaurant"
 }
 ```
 
@@ -397,10 +397,10 @@ Status: 201 Created
 Location: /rest/restaurant/{restaurant-id}
 ```
 
-```
+```json
 {
-    "id": 2,
-    "name": "Name of new Restaurant"
+    "id":2,
+    "name":"Name of new Restaurant"
 }
 ```
 
@@ -440,10 +440,10 @@ Response
 Status: 200 OK
 ```
 
-```
+```json
 [
     {
-        "id:3,
+        "id":3,
         "dish":"First dish", 
         "price":1.23 
     }
@@ -468,9 +468,9 @@ Response
 Status: 200 OK
 ```
 
-```
+```json
 {
-    "id:3,
+    "id":3,
     "dish":"First dish", 
     "price":1.23 
 }
@@ -496,11 +496,11 @@ Status: 201 Created
 Location: /rest/dishes/{dish-id}
 ```
 
-```
+```json
 {
-    "id": 4,
-    "name": "Name of new dish",
-    "price": 1.23
+    "id":4,
+    "name":"Name of new dish",
+    "price":1.23
 }
 ```
 
