@@ -54,14 +54,14 @@ class UserRestaurantControllerTest extends AbstractControllerTest {
     @Test
     void createVote() throws Exception {
         checkPostTo(URI.create(REST_URL_VOTES), user4, VOTE_TO_MATCHER, VoteTestData.getNew(restaurant1),
-                Vote.class, VoteUtil::asTo, (id) -> repository.getVoteByIdAndUserUsername(id, user4.getUsername()));
+                Vote.class, VoteUtil::asTo, (id) -> repository.getVoteByIdAndUserId(id, user4.id()));
     }
 
     @Test
     void createVoteAfterPossibleUpdate() throws Exception {
         setDateTime(VOTE_TIME_INVALID);
         checkPostTo(URI.create(REST_URL_VOTES), user4, VOTE_TO_MATCHER, VoteTestData.getNew(restaurant1),
-                Vote.class, VoteUtil::asTo, (id) -> repository.getVoteByIdAndUserUsername(id, user4.getUsername()));
+                Vote.class, VoteUtil::asTo, (id) -> repository.getVoteByIdAndUserId(id, user4.id()));
     }
 
     @Test
@@ -75,7 +75,7 @@ class UserRestaurantControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        VOTE_MATCHER.assertMatch(repository.getVoteByIdAndUserUsername(updated.id(), user1.getUsername()), updated);
+        VOTE_MATCHER.assertMatch(repository.getVoteByIdAndUserId(updated.id(), user1.id()), updated);
     }
 
     @Test

@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.savadevel.wthl.model.Restaurant;
-import ru.savadevel.wthl.model.Votes;
+import ru.savadevel.wthl.model.VoteResult;
 
 import java.time.LocalDate;
 
@@ -18,14 +18,14 @@ public class VotesTestData {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class VotesTo implements Votes {
+    public static class VoteResultTo implements VoteResult {
         private LocalDate date;
         private Restaurant restaurant;
         private Integer votes;
     }
 
-    public static TestMatcher<VotesTo> VOTES_TO_MATCHER = TestMatcher.usingIgnoringFieldsComparator(VotesTo.class);
+    public static TestMatcher<VoteResultTo> VOTES_TO_MATCHER = TestMatcher.usingIgnoringFieldsComparator(VoteResultTo.class);
 
-    public static final VotesTo votesTo1 = new VotesTo(getVotingDay().getNowDate(), restaurant1, 1);
-    public static final VotesTo votesTo2 = new VotesTo(getVotingDay().getNowDate(), restaurant2, 2);
+    public static final VoteResultTo votesTo1 = new VoteResultTo(getVotingDay().getNowDate(), restaurant1, 1);
+    public static final VoteResultTo votesTo2 = new VoteResultTo(getVotingDay().getNowDate(), restaurant2, 2);
 }

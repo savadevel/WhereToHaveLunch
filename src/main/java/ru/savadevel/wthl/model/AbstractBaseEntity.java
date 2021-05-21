@@ -1,5 +1,6 @@
 package ru.savadevel.wthl.model;
 
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.springframework.data.domain.Persistable;
@@ -8,6 +9,7 @@ import org.springframework.util.Assert;
 import javax.persistence.*;
 
 @ToString
+@NoArgsConstructor
 @MappedSuperclass
 @Access(AccessType.FIELD)
 public abstract class AbstractBaseEntity implements Persistable<Integer> {
@@ -17,9 +19,6 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
     @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1, initialValue = START_SEQ)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
     protected Integer id;
-
-    protected AbstractBaseEntity() {
-    }
 
     protected AbstractBaseEntity(Integer id) {
         this.id = id;

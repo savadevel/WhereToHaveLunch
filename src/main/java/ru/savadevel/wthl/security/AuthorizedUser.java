@@ -12,10 +12,10 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private User user;
+    private final User user;
 
     public AuthorizedUser(User user) {
-        super(user.getUsername(), user.getPassword(), true, true, true, true, user.getRoles());
+        super(user.getName(), user.getPassword(), true, true, true, true, user.getRoles());
         this.user = user;
     }
 }

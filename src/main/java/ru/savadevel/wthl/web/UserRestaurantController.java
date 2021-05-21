@@ -7,7 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.savadevel.wthl.model.Vote;
-import ru.savadevel.wthl.model.Votes;
+import ru.savadevel.wthl.model.VoteResult;
 import ru.savadevel.wthl.repository.VoteRepository;
 import ru.savadevel.wthl.security.SecurityUtil;
 import ru.savadevel.wthl.to.VoteTo;
@@ -31,7 +31,7 @@ public class UserRestaurantController {
     private final VoteRepository voteRepository;
 
     @GetMapping(PART_REST_URL_VOTE_RESULTS)
-    public List<Votes> getAmountVotesForRestaurantsOnCurrentDate() {
+    public List<VoteResult> getAmountVotesForRestaurantsOnCurrentDate() {
         log.info("getAmountVotesForRestaurantsOnCurrentDate for user '{}'", SecurityUtil.authUserId());
         return voteRepository.getAmount(getVotingDay().getNowDate());
     }
@@ -39,7 +39,7 @@ public class UserRestaurantController {
     @GetMapping(PART_REST_URL_VOTES)
     public Vote getVote() {
         log.info("getVote for user '{}'", SecurityUtil.authUserId());
-        return voteRepository.getVoteByUserUsernameAndDate(SecurityUtil.get().getUsername(), getVotingDay().getNowDate());
+        return voteRepository.getVoteByUserIdAndDate(SecurityUtil.authUserId(), getVotingDay().getNowDate());
     }
     @GetMapping(PART_REST_URL_VOTES + "/{voteId}")
     public Vote getVoteById(@PathVariable Integer voteId) {
@@ -63,6 +63,6 @@ public class UserRestaurantController {
     }
 
     private Vote getVoteOfOwnerById(Integer voteId) {
-        return checkNotFoundWithId(voteRepository.getVoteByIdAndUserUsername(voteId, SecurityUtil.get().getUsername()), voteId);
+        return checkNotFoundWithId(voteRepository.getVoteByIdAndUserId(voteId, SecurityUtil.authUserId()), voteId);
     }
 }

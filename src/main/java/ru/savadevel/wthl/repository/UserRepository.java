@@ -13,6 +13,6 @@ import javax.validation.constraints.Size;
 @Repository
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, String> {
-    @Query("FROM User u INNER JOIN FETCH u.roles WHERE u.username=:username")
-    User getByUsername(@NotBlank @Size(min = 3, max = 128) @Param("username") String username);
+    @Query("FROM User u INNER JOIN FETCH u.roles WHERE u.name=:name")
+    User getByName(@NotBlank @Size(min = 3, max = 128) @Param("name") String name);
 }

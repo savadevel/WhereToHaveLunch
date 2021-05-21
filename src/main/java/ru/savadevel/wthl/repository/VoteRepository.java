@@ -7,11 +7,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.savadevel.wthl.model.Vote;
-import ru.savadevel.wthl.model.Votes;
+import ru.savadevel.wthl.model.VoteResult;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -25,11 +23,11 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
             "where v.date=:date " +
             "group by v.date, v.restaurant.id, v.restaurant.name " +
             "order by count(v.id) desc, v.restaurant.name")
-    List<Votes> getAmount(@Param("date") LocalDate date);
+    List<VoteResult> getAmount(@Param("date") LocalDate date);
 
     @EntityGraph(VOTE_RESTAURANT)
-    Vote getVoteByUserUsernameAndDate(@NotBlank @Size(min = 3, max = 128) String username, @NotNull LocalDate date);
+    Vote getVoteByUserIdAndDate(Integer user_id, @NotNull LocalDate date);
 
     @EntityGraph(VOTE_RESTAURANT)
-    Vote getVoteByIdAndUserUsername(Integer id, @NotBlank @Size(min = 3, max = 128) String username);
+    Vote getVoteByIdAndUserId(Integer id, Integer userId);
 }

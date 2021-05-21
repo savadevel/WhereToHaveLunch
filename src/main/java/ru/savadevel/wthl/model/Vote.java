@@ -18,14 +18,14 @@ import java.time.LocalDate;
 @NamedEntityGraph(name = Vote.VOTE_RESTAURANT,
         attributeNodes = @NamedAttributeNode("restaurant"))
 @Table(name = "votes",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"username", "on_date"}, name = "votes_unique_restaurant_user_on_date_idx")},
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "on_date"}, name = "votes_unique_restaurant_user_on_date_idx")},
         indexes = {@Index(columnList = "on_date", name = "votes_on_date_idx")})
 @DynamicUpdate
 public class Vote extends AbstractBaseEntity {
     public static final String VOTE_RESTAURANT = "Vote.restaurant";
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "username", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private User user;

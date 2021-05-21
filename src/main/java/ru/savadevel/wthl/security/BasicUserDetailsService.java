@@ -14,10 +14,10 @@ public class BasicUserDetailsService implements UserDetailsService {
     private final UserRepository repository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = repository.getByUsername(username);
+    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+        User user = repository.getByName(name);
         if (user == null) {
-            throw new UsernameNotFoundException("User " + username + " is not found");
+            throw new UsernameNotFoundException("User " + name + " is not found");
         }
         return new AuthorizedUser(user);
     }

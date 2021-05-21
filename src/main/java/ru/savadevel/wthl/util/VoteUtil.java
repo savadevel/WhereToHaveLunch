@@ -3,11 +3,10 @@ package ru.savadevel.wthl.util;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import ru.savadevel.wthl.model.Restaurant;
-import ru.savadevel.wthl.model.Role;
 import ru.savadevel.wthl.model.User;
 import ru.savadevel.wthl.model.Vote;
-import ru.savadevel.wthl.to.VoteTo;
 import ru.savadevel.wthl.security.SecurityUtil;
+import ru.savadevel.wthl.to.VoteTo;
 
 import static ru.savadevel.wthl.util.votingday.ProduceVotingDay.getVotingDay;
 
@@ -33,6 +32,6 @@ public class VoteUtil {
     }
 
     private static User getUser() {
-        return new User(SecurityUtil.get().getUsername(), null, Role.USER);
+        return SecurityUtil.get().getUser();
     }
 }
