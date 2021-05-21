@@ -13,6 +13,7 @@ import ru.savadevel.wthl.model.Restaurant;
 import ru.savadevel.wthl.repository.DishRepository;
 import ru.savadevel.wthl.repository.MenuRepository;
 import ru.savadevel.wthl.repository.RestaurantRepository;
+import ru.savadevel.wthl.security.SecurityUtil;
 import ru.savadevel.wthl.to.MenuTo;
 import ru.savadevel.wthl.util.MenuUtil;
 

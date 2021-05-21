@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.savadevel.wthl.model.Menu;
 import ru.savadevel.wthl.repository.MenuRepository;
+import ru.savadevel.wthl.security.SecurityUtil;
 
 import java.util.List;
 

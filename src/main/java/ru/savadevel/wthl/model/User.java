@@ -2,13 +2,13 @@ package ru.savadevel.wthl.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.*;
 import org.springframework.data.domain.Persistable;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.*;
@@ -39,7 +39,6 @@ public class User implements Persistable<String> {
             uniqueConstraints = {@UniqueConstraint(columnNames = {"username", "role"}, name = "user_roles_unique_username_role_idx")})
     @Column(name = "role", nullable = false, columnDefinition="VARCHAR(16)")
     @ElementCollection(fetch = FetchType.EAGER)
-    @BatchSize(size = 200)
     @JoinColumn(name = "username") //https://stackoverflow.com/a/62848296/548473
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles;

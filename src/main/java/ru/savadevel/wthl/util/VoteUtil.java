@@ -7,7 +7,7 @@ import ru.savadevel.wthl.model.Role;
 import ru.savadevel.wthl.model.User;
 import ru.savadevel.wthl.model.Vote;
 import ru.savadevel.wthl.to.VoteTo;
-import ru.savadevel.wthl.web.SecurityUtil;
+import ru.savadevel.wthl.security.SecurityUtil;
 
 import static ru.savadevel.wthl.util.votingday.ProduceVotingDay.getVotingDay;
 

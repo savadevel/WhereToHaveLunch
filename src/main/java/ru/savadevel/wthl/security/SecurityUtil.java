@@ -1,4 +1,4 @@
-package ru.savadevel.wthl.web;
+package ru.savadevel.wthl.security;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ public class SecurityUtil {
             return null;
         }
         Object principal = auth.getPrincipal();
-        return (principal instanceof UserDetails) ? (UserDetails) principal : null;
+        return (principal instanceof AuthorizedUser) ? (AuthorizedUser) principal : null;
     }
 
     public static UserDetails get() {

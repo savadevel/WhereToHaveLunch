@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.savadevel.wthl.model.Vote;
 import ru.savadevel.wthl.model.Votes;
 import ru.savadevel.wthl.repository.VoteRepository;
+import ru.savadevel.wthl.security.SecurityUtil;
 import ru.savadevel.wthl.to.VoteTo;
 import ru.savadevel.wthl.util.VoteUtil;
 

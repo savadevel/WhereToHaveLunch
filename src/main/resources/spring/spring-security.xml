@@ -21,11 +21,8 @@
     <beans:bean class="org.springframework.security.crypto.factory.PasswordEncoderFactories" id="passwordEncoder" factory-method="createDelegatingPasswordEncoder"/>
 
     <authentication-manager>
-        <authentication-provider>
+        <authentication-provider user-service-ref="basicUserDetailsService">
             <password-encoder ref="passwordEncoder"/>
-            <jdbc-user-service data-source-ref="dataSource"
-                               users-by-username-query="SELECT username, password, true as enabled FROM users WHERE username = ?"
-                               authorities-by-username-query="SELECT u.username, 'ROLE_' + r.role as authority FROM users u INNER JOIN user_roles r on u.username = r.username WHERE u.username = ?"/>
         </authentication-provider>
     </authentication-manager>
 </beans:beans>
