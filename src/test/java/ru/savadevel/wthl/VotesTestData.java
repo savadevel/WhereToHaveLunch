@@ -14,6 +14,10 @@ import static ru.savadevel.wthl.RestaurantTestData.restaurant2;
 import static ru.savadevel.wthl.util.votingday.ProduceVotingDay.getVotingDay;
 
 public class VotesTestData {
+    public static TestMatcher<VoteResultTo> VOTES_TO_MATCHER = TestMatcher.usingIgnoringFieldsComparator(VoteResultTo.class);
+    public static final VoteResultTo votesTo1 = new VoteResultTo(getVotingDay().getNowDate(), restaurant1, 1);
+    public static final VoteResultTo votesTo2 = new VoteResultTo(getVotingDay().getNowDate(), restaurant2, 2);
+
     @Getter
     @Setter
     @AllArgsConstructor
@@ -23,9 +27,4 @@ public class VotesTestData {
         private Restaurant restaurant;
         private Integer votes;
     }
-
-    public static TestMatcher<VoteResultTo> VOTES_TO_MATCHER = TestMatcher.usingIgnoringFieldsComparator(VoteResultTo.class);
-
-    public static final VoteResultTo votesTo1 = new VoteResultTo(getVotingDay().getNowDate(), restaurant1, 1);
-    public static final VoteResultTo votesTo2 = new VoteResultTo(getVotingDay().getNowDate(), restaurant2, 2);
 }
