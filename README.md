@@ -17,6 +17,17 @@ Diagram of entities / tables:
 
 ![diagram.png](diagram.png)
 
+## Accounts
+Accounts preset:
+
+| Login     | Password      | Role      |
+|---        |---            |---        |
+| user1     | password      | USER      |
+| user2     | password      | USER      |
+| user3     | password      | USER      |
+| user4     | password      | USER      |
+| admin     | admin         | ADMIN     |
+
 ## Swagger REST Api Documentation
 Documentation available by URL (after setup WTHL):
 ```http request
@@ -102,7 +113,7 @@ curl \
 
 Response
 
-```
+```text
 Status: 200 OK
 ```
 
@@ -140,7 +151,7 @@ curl \
 
 Response
 
-```
+```text
 Status: 200 OK
 ```
 
@@ -177,7 +188,7 @@ curl \
 
 Response
 
-```
+```text
 Status: 201 Created
 Location: /rest/menus/{menu-id}
 ```
@@ -212,7 +223,7 @@ curl \
 
 Response
 
-```
+```text
 Status: 204 No Content
 ```
 
@@ -230,7 +241,7 @@ curl \
 
 Response
 
-```
+```text
 Status: 200 OK
 ```
 
@@ -260,7 +271,7 @@ curl \
 
 Response
 
-```
+```text
 Status: 200 OK
 ```
 
@@ -291,7 +302,7 @@ curl \
 
 Response
 
-```
+```text
 Status: 201 Created
 Location: /rest/votes/{vote-id}
 ```
@@ -323,7 +334,7 @@ curl \
 
 Response
 
-```
+```text
 Status: 204 No Content
 ```
 
@@ -341,7 +352,7 @@ curl \
 
 Response
 
-```
+```text
 Status: 200 OK
 ```
 
@@ -368,7 +379,7 @@ curl \
 
 Response
 
-```
+```text
 Status: 200 OK
 ```
 
@@ -394,7 +405,7 @@ curl \
 
 Response
 
-```
+```text
 Status: 201 Created
 Location: /rest/restaurant/{restaurant-id}
 ```
@@ -420,7 +431,7 @@ curl \
 
 Response
 
-```
+```text
 Status: 204 No Content
 ```
 
@@ -438,7 +449,7 @@ curl \
 
 Response
 
-```
+```text
 Status: 200 OK
 ```
 
@@ -466,7 +477,7 @@ curl \
 
 Response
 
-```
+```text
 Status: 200 OK
 ```
 
@@ -493,7 +504,7 @@ curl \
 
 Response
 
-```
+```text
 Status: 201 Created
 Location: /rest/dishes/{dish-id}
 ```
@@ -520,6 +531,6 @@ curl \
 
 Response
 
-```
+```text
 Status: 204 No Content
 ```
