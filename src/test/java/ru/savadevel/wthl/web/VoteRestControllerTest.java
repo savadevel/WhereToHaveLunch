@@ -21,25 +21,15 @@ import static ru.savadevel.wthl.RestaurantTestData.restaurant1;
 import static ru.savadevel.wthl.RestaurantTestData.restaurant2;
 import static ru.savadevel.wthl.TestUtil.userHttpBasic;
 import static ru.savadevel.wthl.UserTestData.*;
-import static ru.savadevel.wthl.UserTestData.user4;
 import static ru.savadevel.wthl.VoteTestData.*;
-import static ru.savadevel.wthl.VotesTestData.*;
 import static ru.savadevel.wthl.util.VoteUtil.asTo;
-import static ru.savadevel.wthl.web.WebUtil.PART_REST_URL_VOTES;
-import static ru.savadevel.wthl.web.WebUtil.PART_REST_URL_VOTE_RESULTS;
 
-class UserRestaurantControllerTest extends AbstractControllerTest {
-    private static final String REST_URL_VOTES = UserRestaurantController.REST_URL + PART_REST_URL_VOTES + "/";
-    private static final String REST_URL_VOTE_RESULTS = UserRestaurantController.REST_URL + PART_REST_URL_VOTE_RESULTS + "/";
+class VoteRestControllerTest extends AbstractControllerTest {
+    private static final String REST_URL_VOTES = VoteRestController.REST_URL + "/";
     private static final LocalDateTime VOTE_TIME_INVALID = LocalDateTime.of(2021, 1, 1, 11, 0, 0, 0);
 
     @Autowired
     private VoteRepository repository;
-
-    @Test
-    void getAmountVotesForRestaurantsOnCurrentDate() throws Exception {
-        checkGet(URI.create(REST_URL_VOTE_RESULTS), user1, VOTES_TO_MATCHER, votesTo2, votesTo1);
-    }
 
     @Test
     void getVote() throws Exception {
