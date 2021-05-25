@@ -3,19 +3,14 @@ package ru.savadevel.wthl.web;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.savadevel.wthl.DishTestData;
-import ru.savadevel.wthl.RestaurantTestData;
 import ru.savadevel.wthl.UserTestData;
-import ru.savadevel.wthl.model.Dish;
 import ru.savadevel.wthl.model.Restaurant;
 import ru.savadevel.wthl.model.Role;
-import ru.savadevel.wthl.repository.DishRepository;
 import ru.savadevel.wthl.repository.RestaurantRepository;
 
 import java.net.URI;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.savadevel.wthl.DishTestData.*;
 import static ru.savadevel.wthl.RestaurantTestData.*;
 import static ru.savadevel.wthl.TestUtil.userHttpBasic;
 import static ru.savadevel.wthl.UserTestData.admin;
@@ -41,12 +36,12 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
     @Test
     void addRestaurant() throws Exception {
         checkPost(URI.create(REST_URL_RESTAURANTS), admin, RESTAURANT_MATCHER,
-                RestaurantTestData.getNew(), Restaurant.class, (id) -> restaurantRepository.getById(id));
+                    getNew(), Restaurant.class, (id) -> restaurantRepository.getById(id));
     }
 
     @Test
     void addDuplicateRestaurant() throws Exception {
-        Restaurant duplicate = RestaurantTestData.getNew();
+        Restaurant duplicate = getNew();
         duplicate.setName(restaurant1.getName());
         checkDuplicate(URI.create(REST_URL_RESTAURANTS), admin, duplicate);
     }

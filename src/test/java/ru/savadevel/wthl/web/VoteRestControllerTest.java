@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.savadevel.wthl.UserTestData;
-import ru.savadevel.wthl.VoteTestData;
 import ru.savadevel.wthl.model.Role;
 import ru.savadevel.wthl.model.Vote;
 import ru.savadevel.wthl.repository.VoteRepository;
@@ -21,6 +20,7 @@ import static ru.savadevel.wthl.RestaurantTestData.restaurant1;
 import static ru.savadevel.wthl.RestaurantTestData.restaurant2;
 import static ru.savadevel.wthl.TestUtil.userHttpBasic;
 import static ru.savadevel.wthl.UserTestData.*;
+import static ru.savadevel.wthl.VoteTestData.getNew;
 import static ru.savadevel.wthl.VoteTestData.*;
 import static ru.savadevel.wthl.util.VoteUtil.asTo;
 
@@ -43,14 +43,14 @@ class VoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     void createVote() throws Exception {
-        checkPostTo(URI.create(REST_URL_VOTES), user4, VOTE_TO_MATCHER, VoteTestData.getNew(restaurant1),
+        checkPostTo(URI.create(REST_URL_VOTES), user4, VOTE_TO_MATCHER, getNew(restaurant1),
                 Vote.class, VoteUtil::asTo, (id) -> repository.getVoteByIdAndUserId(id, user4.id()));
     }
 
     @Test
     void createVoteAfterPossibleUpdate() throws Exception {
         setDateTime(VOTE_TIME_INVALID);
-        checkPostTo(URI.create(REST_URL_VOTES), user4, VOTE_TO_MATCHER, VoteTestData.getNew(restaurant1),
+        checkPostTo(URI.create(REST_URL_VOTES), user4, VOTE_TO_MATCHER, getNew(restaurant1),
                 Vote.class, VoteUtil::asTo, (id) -> repository.getVoteByIdAndUserId(id, user4.id()));
     }
 
@@ -113,7 +113,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
 
     @Test
     void createManyVoteByOneUser() throws Exception {
-        Vote newVote = VoteTestData.getNew(restaurant2);
+        Vote newVote = getNew(restaurant2);
         perform(MockMvcRequestBuilders.post(URI.create(REST_URL_VOTES))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(asTo(newVote)))

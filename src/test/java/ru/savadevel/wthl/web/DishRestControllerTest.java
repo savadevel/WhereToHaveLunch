@@ -3,20 +3,15 @@ package ru.savadevel.wthl.web;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.savadevel.wthl.DishTestData;
-import ru.savadevel.wthl.RestaurantTestData;
 import ru.savadevel.wthl.UserTestData;
 import ru.savadevel.wthl.model.Dish;
-import ru.savadevel.wthl.model.Restaurant;
 import ru.savadevel.wthl.model.Role;
 import ru.savadevel.wthl.repository.DishRepository;
-import ru.savadevel.wthl.repository.RestaurantRepository;
 
 import java.net.URI;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.savadevel.wthl.DishTestData.*;
-import static ru.savadevel.wthl.RestaurantTestData.*;
 import static ru.savadevel.wthl.TestUtil.userHttpBasic;
 import static ru.savadevel.wthl.UserTestData.admin;
 import static ru.savadevel.wthl.UserTestData.user1;
@@ -41,12 +36,12 @@ class DishRestControllerTest extends AbstractControllerTest {
     @Test
     void addDish() throws Exception {
         checkPost(URI.create(REST_URL_DISHES), admin, DISH_MATCHER,
-                DishTestData.getNew(), Dish.class, (id) -> dishRepository.getById(id));
+                getNew(), Dish.class, (id) -> dishRepository.getById(id));
     }
 
     @Test
     void addDuplicateDish() throws Exception {
-        Dish duplicate = DishTestData.getNew();
+        Dish duplicate = getNew();
         duplicate.setName(dish1.getName());
         checkDuplicate(URI.create(REST_URL_DISHES), admin, duplicate);
     }

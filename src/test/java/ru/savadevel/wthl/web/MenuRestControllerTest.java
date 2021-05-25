@@ -3,7 +3,6 @@ package ru.savadevel.wthl.web;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.savadevel.wthl.MenuTestData;
 import ru.savadevel.wthl.UserTestData;
 import ru.savadevel.wthl.model.Menu;
 import ru.savadevel.wthl.model.Role;
@@ -46,7 +45,7 @@ class MenuRestControllerTest extends AbstractControllerTest {
     @Test
     void addMenu() throws Exception {
         checkPostTo(URI.create(REST_URL_MENUS), admin, MENU_TO_MATCHER,
-                MenuTestData.getNew(restaurant1, dish1), Menu.class, MenuUtil::asTo, (id) -> menuRepository.getById(id));
+                getNew(restaurant1, dish1), Menu.class, MenuUtil::asTo, (id) -> menuRepository.getById(id));
     }
 
     @Test
@@ -75,7 +74,7 @@ class MenuRestControllerTest extends AbstractControllerTest {
 
     @Test
     void addDuplicateMenu() throws Exception {
-        Menu duplicate = MenuTestData.getNew(menu1.getRestaurant(), menu1.getDish());
+        Menu duplicate = getNew(menu1.getRestaurant(), menu1.getDish());
         duplicate.setDate(LocalDate.now());
         menuRepository.save(duplicate);
         checkDuplicate(URI.create(REST_URL_MENUS), admin, MenuUtil.asTo(duplicate));
