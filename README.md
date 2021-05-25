@@ -1,4 +1,5 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/93e6e93efea544f882a738c8e3a6da32)](https://www.codacy.com/gh/savadevel/WhereToHaveLunch/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=savadevel/WhereToHaveLunch&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://travis-ci.com/savadevel/WhereToHaveLunch.svg?branch=master)](https://travis-ci.com/savadevel/WhereToHaveLunch)
 
 # Design and implement a REST API using Hibernate/Spring/SpringMVC (or Spring-Boot) without frontend
 
